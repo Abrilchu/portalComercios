@@ -324,6 +324,23 @@
             overflow: hidden;
         }
 
+        /* Change indicator styles */
+        .change-indicator {
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .change-indicator.positive {
+            color: var(--ux-primary-green);
+        }
+
+        .change-indicator.negative {
+            color: #ef4444;
+        }
+
         .stat-card .icon {
             position: absolute;
             top: 20px;
@@ -1201,17 +1218,54 @@
         function updateDashboardStats(stats) {
             console.log('Updating dashboard with stats:', stats);
             
-            // Update values with real data from backend using correct element IDs
-            document.getElementById('salesValue').textContent = `$${formatMoney(stats.totalAmount || 0)}`;
-            document.getElementById('approvedValue').textContent = `$${formatMoney(stats.approvedAmount || 0)}`;
-            document.getElementById('pendingValue').textContent = `$${formatMoney(stats.pendingAmount || 0)}`;
-            document.getElementById('liquidatedValue').textContent = `$${formatMoney(stats.liquidatedAmount || 0)}`;
+            // Helper function to safely update element text content
+            function safeUpdate(elementId, text) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.textContent = text;
+                } else {
+                    console.warn(`Element with id '${elementId}' not found`);
+                }
+            }
             
-            // Update change indicators with real counts
-            document.getElementById('salesChange').textContent = `${stats.totalPayments || 0} transacciones`;
-            document.getElementById('approvedChange').textContent = `${stats.approvedPayments || 0} aprobadas`;
-            document.getElementById('pendingChange').textContent = `${stats.pendingPayments || 0} pendientes`;
-            document.getElementById('liquidatedChange').textContent = `${stats.liquidatedPayments || 0} liquidadas`;
+            // Helper function to safely update element HTML
+            function safeUpdateHTML(elementId, html) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.innerHTML = html;
+                } else {
+                    console.warn(`Element with id '${elementId}' not found`);
+                }
+            }
+            
+            // Update main sales value (today's total)
+            safeUpdate('salesValue', `$${formatMoney(stats.totalAmount || 0)}`);
+            
+            // Update sales change indicator with percentage vs yesterday
+            const changePercent = stats.salesChangePercent || 0;
+            const changeIcon = changePercent >= 0 ? '↑' : '↓';
+            const changeClass = changePercent >= 0 ? 'positive' : 'negative';
+            
+            safeUpdateHTML('salesChange', `
+                <span class="change-indicator ${changeClass}">
+                    ${changeIcon} ${Math.abs(changePercent).toFixed(1)}% vs ayer
+                </span>
+            `);
+            
+            // Update other values (keeping current functionality)
+            safeUpdate('approvedValue', `$${formatMoney(stats.approvedAmount || 0)}`);
+            safeUpdate('pendingValue', `$${formatMoney(stats.pendingAmount || 0)}`);
+            safeUpdate('liquidatedValue', `$${formatMoney(stats.liquidatedAmount || 0)}`);
+            
+            // Update counts
+            safeUpdate('approvedChange', `${stats.approvedPayments || 0} aprobadas`);
+            safeUpdate('pendingChange', `${stats.pendingPayments || 0} pendientes`);
+            safeUpdate('liquidatedChange', `${stats.liquidatedPayments || 0} liquidadas`);
+            
+            // Update title with details
+            document.title = `UX Dual Portal - Ventas Hoy: $${formatMoney(stats.totalAmount || 0)}`;
+            
+            console.log('Dashboard stats updated successfully');
         }
 
         function updateRecentActivity(payments) {

@@ -28,6 +28,26 @@ public interface PaymentRepository extends CrudRepository<Payment, Long> {
     
     Page<Payment> findByCashierIdInOrderByCreatedAtDesc(List<Long> cashierIds, Pageable pageable);
     
+    // Dashboard queries for today vs yesterday comparison
+    @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE")
+    BigDecimal getTotalSalesToday();
+    
+    @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE - INTERVAL '1 day'")
+    BigDecimal getTotalSalesYesterday();
+    
+    @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE")
+    Long getPaymentCountToday();
+    
+    @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE - INTERVAL '1 day'")
+    Long getPaymentCountYesterday();
+    
+    // Temporarily disabled due to enum casting issues - will fix later
+    // @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE AND status::text = :status")
+    // BigDecimal getTotalByStatusToday(String status);
+    
+    // @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND status::text = :status")
+    // Long getCountByStatusToday(String status);
+    
     List<Payment> findByLastSyncCursorAfterAndBranchIdIn(LocalDateTime sinceCursor, List<Long> branchIds);
     
     List<Payment> findByLastSyncCursorAfterAndCashierIdIn(LocalDateTime sinceCursor, List<Long> cashierIds);
