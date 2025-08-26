@@ -32,4 +32,5 @@
 /home/runner/workspace/src/main/java/com/uxdual/portal/dto/CustomerDto.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/model/Payment.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/dto/BranchDto.java
+/home/runner/workspace/src/main/java/com/uxdual/portal/service/SimpleDashboardService.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/model/PaymentStatus.java
