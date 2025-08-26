@@ -1,0 +1,28 @@
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import { Quasar, Dialog, Notify, Loading } from 'quasar'
+import router from './router'
+import App from './App.vue'
+
+// Import icon libraries
+import '@quasar/extras/material-icons/material-icons.css'
+
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(router)
+app.use(Quasar, {
+  plugins: {
+    Dialog,
+    Notify,
+    Loading
+  },
+  config: {
+    notify: {
+      position: 'top',
+      timeout: 5000
+    }
+  }
+})
+
+app.mount('#app')

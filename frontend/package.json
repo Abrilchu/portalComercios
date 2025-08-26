@@ -1,0 +1,47 @@
+{
+  "name": "ux-dual-portal-frontend",
+  "version": "1.0.0",
+  "description": "UX Dual Portal Frontend - Business Management Portal",
+  "productName": "UX Dual Portal",
+  "author": "UX Dual Team",
+  "private": true,
+  "scripts": {
+    "dev": "quasar dev",
+    "build": "quasar build",
+    "lint": "eslint --ext .js,.vue ./",
+    "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.4",
+    "axios": "^1.6.0",
+    "chart.js": "^4.4.0",
+    "pinia": "^2.1.7",
+    "quasar": "^2.14.2",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@quasar/app-webpack": "^3.12.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.3"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 18.14.0",
+    "npm": ">= 8.5.0 < 11.0.0 && >= 8.5.0",
+    "yarn": ">= 1.21.1"
+  }
+}

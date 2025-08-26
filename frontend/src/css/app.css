@@ -1,0 +1,78 @@
+/* Global CSS */
+.q-table__card {
+  box-shadow: none;
+  border: 1px solid #e0e0e0;
+}
+
+.q-card {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-card {
+  transition: transform 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.status-chip {
+  font-weight: 500;
+}
+
+.status-approved {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.status-rejected {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.status-pending-settlement {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+
+.status-settled {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+.export-btn {
+  margin-left: auto;
+}
+
+.responsive-table {
+  font-size: 0.875rem;
+}
+
+.q-table th,
+.q-table td {
+  padding: 8px 12px;
+}
+
+@media (max-width: 768px) {
+  .q-table th,
+  .q-table td {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
