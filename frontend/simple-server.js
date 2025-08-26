@@ -30,10 +30,19 @@ const server = http.createServer((req, res) => {
     });
     
     req.on('end', () => {
+      // Redirect specific endpoints to working dev endpoints
+      let apiPath = req.url;
+      if (req.url === '/api/payments' || req.url.startsWith('/api/payments?')) {
+        apiPath = req.url.replace('/api/payments', '/api/dev/payments');
+      }
+      if (req.url === '/api/dashboard/stats') {
+        apiPath = '/api/dev/dashboard/stats';
+      }
+      
       const options = {
         hostname: BACKEND_HOST,
         port: BACKEND_PORT,
-        path: req.url,
+        path: apiPath,
         method: req.method,
         headers: {
           ...req.headers,
