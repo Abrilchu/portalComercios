@@ -12,6 +12,7 @@ import io.micronaut.data.model.Pageable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import io.micronaut.core.annotation.Nullable;
 
 @JdbcRepository(dialect = Dialect.POSTGRES)
 public interface PaymentRepository extends CrudRepository<Payment, Long> {
@@ -41,9 +42,9 @@ public interface PaymentRepository extends CrudRepository<Payment, Long> {
            "AND (:maxAmount IS NULL OR p.amount <= :maxAmount) " +
            "AND (:paymentId IS NULL OR p.payment_id LIKE CONCAT('%', :paymentId, '%')) " +
            "AND (:orderId IS NULL OR p.order_id LIKE CONCAT('%', :orderId, '%'))")
-    Page<Payment> findWithFilters(List<Long> branchIds, LocalDateTime fromDate, LocalDateTime toDate, 
-                                 PaymentStatus status, BigDecimal minAmount, BigDecimal maxAmount,
-                                 String paymentId, String orderId, Pageable pageable);
+    Page<Payment> findWithFilters(List<Long> branchIds, @Nullable LocalDateTime fromDate, @Nullable LocalDateTime toDate, 
+                                 @Nullable PaymentStatus status, @Nullable BigDecimal minAmount, @Nullable BigDecimal maxAmount,
+                                 @Nullable String paymentId, @Nullable String orderId, Pageable pageable);
     
     @Query("SELECT COUNT(*) FROM payments p WHERE p.branch_id = ANY(:branchIds) " +
            "AND p.created_at >= :startOfDay AND p.created_at <= :endOfDay")

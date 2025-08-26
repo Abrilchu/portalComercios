@@ -45,10 +45,14 @@ public class DevController {
     }
     
     @Get("/payments")
-    public Page<PaymentDto> getPayments(@QueryValue PaymentFilter filter) {
+    public Page<PaymentDto> getPayments() {
         // Use all branches and cashiers for development
         List<Long> allBranchIds = Arrays.asList(1L, 2L);
         List<Long> allCashierIds = Arrays.asList(1L, 2L, 3L);
+        
+        // Create empty filter for development
+        PaymentFilter filter = new PaymentFilter();
+        
         return paymentService.getPayments(filter, allBranchIds, allCashierIds);
     }
     

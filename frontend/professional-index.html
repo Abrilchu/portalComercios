@@ -1167,8 +1167,8 @@
 
         async function loadDashboardData() {
             try {
-                console.log('Loading dashboard stats from development endpoint...');
-                const response = await fetch('/api/dev/dashboard/stats');
+                console.log('Loading dashboard stats from API...');
+                const response = await fetch('/api/dashboard/stats');
 
                 if (response.ok) {
                     const stats = await response.json();
@@ -1183,8 +1183,8 @@
 
             // Load recent payments
             try {
-                console.log('Loading recent payments from development endpoint...');
-                const response = await fetch('/api/dev/payments?size=5');
+                console.log('Loading recent payments from API...');
+                const response = await fetch('/api/payments?size=5');
 
                 if (response.ok) {
                     const paymentsPage = await response.json();
@@ -1254,8 +1254,8 @@
 
         async function loadOrdersData() {
             try {
-                console.log('Loading orders from development endpoint...');
-                const response = await fetch('/api/dev/payments');
+                console.log('Loading orders from API...');
+                const response = await fetch('/api/payments');
 
                 if (response.ok) {
                     const paymentsPage = await response.json();
