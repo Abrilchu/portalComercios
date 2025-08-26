@@ -1167,15 +1167,15 @@
 
         async function loadDashboardData() {
             try {
-                const response = await fetch('/api/dashboard/stats', {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`
-                    }
-                });
+                console.log('Loading dashboard stats from development endpoint...');
+                const response = await fetch('/api/dev/dashboard/stats');
 
                 if (response.ok) {
                     const stats = await response.json();
+                    console.log('Dashboard stats loaded:', stats);
                     updateDashboardStats(stats);
+                } else {
+                    console.error('Failed to load dashboard stats:', response.status);
                 }
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
@@ -1183,15 +1183,15 @@
 
             // Load recent payments
             try {
-                const response = await fetch('/api/payments?limit=5', {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`
-                    }
-                });
+                console.log('Loading recent payments from development endpoint...');
+                const response = await fetch('/api/dev/payments?size=5');
 
                 if (response.ok) {
-                    const payments = await response.json();
-                    updateRecentActivity(payments);
+                    const paymentsPage = await response.json();
+                    console.log('Recent payments loaded:', paymentsPage);
+                    updateRecentActivity(paymentsPage.content || []);
+                } else {
+                    console.error('Failed to load recent payments:', response.status);
                 }
             } catch (error) {
                 console.error('Error loading recent payments:', error);
@@ -1254,15 +1254,18 @@
 
         async function loadOrdersData() {
             try {
-                const response = await fetch('/api/payments', {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`
-                    }
-                });
+                console.log('Loading orders from development endpoint...');
+                const response = await fetch('/api/dev/payments');
 
                 if (response.ok) {
-                    paymentsData = await response.json();
+                    const paymentsPage = await response.json();
+                    console.log('Orders loaded:', paymentsPage);
+                    paymentsData = paymentsPage.content || [];
                     updateOrdersTable(paymentsData);
+                } else {
+                    console.error('Failed to load orders:', response.status);
+                    document.getElementById('ordersTableBody').innerHTML = 
+                        '<tr><td colspan="9" class="empty-state">Error al cargar órdenes</td></tr>';
                 }
             } catch (error) {
                 console.error('Error loading orders:', error);
