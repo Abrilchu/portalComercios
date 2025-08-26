@@ -1262,6 +1262,7 @@
                     console.log('Orders loaded:', paymentsPage);
                     paymentsData = paymentsPage.content || [];
                     updateOrdersTable(paymentsData);
+                    updateFilterOptions(paymentsData);
                 } else {
                     console.error('Failed to load orders:', response.status);
                     document.getElementById('ordersTableBody').innerHTML = 
@@ -1272,6 +1273,43 @@
                 document.getElementById('ordersTableBody').innerHTML = 
                     '<tr><td colspan="9" class="empty-state">Error al cargar órdenes</td></tr>';
             }
+        }
+
+        function updateFilterOptions(payments) {
+            // Extract unique branches
+            const uniqueBranches = [...new Set(payments.map(p => p.branchName).filter(Boolean))];
+            const branchFilter = document.getElementById('branchFilter');
+            
+            // Clear existing options except the first one
+            branchFilter.innerHTML = '<option value="">Todas las sucursales</option>';
+            
+            // Add unique branch options
+            uniqueBranches.forEach(branchName => {
+                const option = document.createElement('option');
+                option.value = branchName;
+                option.textContent = branchName;
+                branchFilter.appendChild(option);
+            });
+
+            // Extract unique cashiers
+            const uniqueCashiers = [...new Set(payments.map(p => p.cashierName).filter(Boolean))];
+            const cashierFilter = document.getElementById('cashierFilter');
+            
+            // Clear existing options except the first one
+            cashierFilter.innerHTML = '<option value="">Todas las cajas</option>';
+            
+            // Add unique cashier options
+            uniqueCashiers.forEach(cashierName => {
+                const option = document.createElement('option');
+                option.value = cashierName;
+                option.textContent = cashierName;
+                cashierFilter.appendChild(option);
+            });
+
+            console.log('Filter options updated:', {
+                branches: uniqueBranches,
+                cashiers: uniqueCashiers
+            });
         }
 
         function updateOrdersTable(orders) {
@@ -1361,8 +1399,8 @@
                     (order.paymentId && order.paymentId.toLowerCase().includes(searchTerm));
                 
                 const matchesStatus = !statusFilter || order.status === statusFilter;
-                const matchesBranch = !branchFilter || order.branchId == branchFilter;
-                const matchesCashier = !cashierFilter || order.cashierId == cashierFilter;
+                const matchesBranch = !branchFilter || order.branchName === branchFilter;
+                const matchesCashier = !cashierFilter || order.cashierName === cashierFilter;
 
                 return matchesSearch && matchesStatus && matchesBranch && matchesCashier;
             });
@@ -1620,6 +1658,16 @@
                 </div>
             `;
         }
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for filters
+            document.getElementById('searchInput').addEventListener('input', filterOrders);
+            document.getElementById('statusFilter').addEventListener('change', filterOrders);
+            document.getElementById('branchFilter').addEventListener('change', filterOrders);
+            document.getElementById('cashierFilter').addEventListener('change', filterOrders);
+            document.getElementById('clientSearchInput').addEventListener('input', filterClients);
+        });
     </script>
 </body>
 </html>
