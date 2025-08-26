@@ -895,11 +895,46 @@
                 
                 console.log('Request options:', requestOptions);
                 
-                const response = await fetch('/api/auth/login', requestOptions);
+                // Use XMLHttpRequest as alternative to fetch for better compatibility
+                const xhr = new XMLHttpRequest();
+                
+                const xhrPromise = new Promise((resolve, reject) => {
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+                            console.log('XHR Status:', xhr.status);
+                            console.log('XHR Response:', xhr.responseText);
+                            
+                            if (xhr.status === 200) {
+                                try {
+                                    const data = JSON.parse(xhr.responseText);
+                                    resolve({ ok: true, status: xhr.status, json: () => Promise.resolve(data) });
+                                } catch (e) {
+                                    reject(new Error('Invalid JSON response'));
+                                }
+                            } else {
+                                resolve({ 
+                                    ok: false, 
+                                    status: xhr.status, 
+                                    json: () => Promise.resolve({ message: 'XHR Error' }) 
+                                });
+                            }
+                        }
+                    };
+                    
+                    xhr.onerror = function() {
+                        reject(new Error('XHR Network Error'));
+                    };
+                });
+                
+                xhr.open('POST', '/api/auth/login', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Accept', 'application/json');
+                xhr.send(requestBody);
+                
+                const response = await xhrPromise;
 
                 console.log('Response status:', response.status);
                 console.log('Response ok:', response.ok);
-                console.log('Response headers:', [...response.headers.entries()]);
 
                 if (response.ok) {
                     const data = await response.json();
