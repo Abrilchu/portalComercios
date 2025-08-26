@@ -1217,12 +1217,17 @@
 
         function updateDashboardStats(stats) {
             console.log('Updating dashboard with stats:', stats);
+            console.log('Current view:', currentView);
+            console.log('Dashboard section style:', document.getElementById('dashboardSection')?.style?.display);
+            console.log('Dashboard view style:', document.getElementById('dashboardView')?.style?.display);
             
             // Helper function to safely update element text content
             function safeUpdate(elementId, text) {
                 const element = document.getElementById(elementId);
+                console.log(`Attempting to update ${elementId} with:`, text, 'Element found:', !!element);
                 if (element) {
                     element.textContent = text;
+                    console.log(`Successfully updated ${elementId} to:`, element.textContent);
                 } else {
                     console.warn(`Element with id '${elementId}' not found`);
                 }
@@ -1231,8 +1236,10 @@
             // Helper function to safely update element HTML
             function safeUpdateHTML(elementId, html) {
                 const element = document.getElementById(elementId);
+                console.log(`Attempting to update ${elementId} HTML. Element found:`, !!element);
                 if (element) {
                     element.innerHTML = html;
+                    console.log(`Successfully updated ${elementId} HTML`);
                 } else {
                     console.warn(`Element with id '${elementId}' not found`);
                 }
