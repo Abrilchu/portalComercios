@@ -24,7 +24,7 @@ public class Branch {
     private LocalDateTime updatedAt;
     
     @Relation(value = Relation.Kind.MANY_TO_ONE)
-    private User user;
+    private User manager;
     
     @Relation(value = Relation.Kind.ONE_TO_MANY, mappedBy = "branch")
     private List<Cashier> cashiers;
@@ -67,8 +67,8 @@ public class Branch {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public User getManager() { return manager; }
+    public void setManager(User manager) { this.manager = manager; }
     
     public List<Cashier> getCashiers() { return cashiers; }
     public void setCashiers(List<Cashier> cashiers) { this.cashiers = cashiers; }

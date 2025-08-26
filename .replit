@@ -1,4 +1,4 @@
-modules = ["java", "nodejs-20"]
+modules = ["java", "nodejs-20", "postgresql-16"]
 [agent]
 expertMode = true
 
@@ -20,10 +20,6 @@ args = "Backend"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "backend"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
 args = "Frontend"
 
 [[workflows.workflow]]
@@ -39,24 +35,16 @@ args = "mvn compile exec:java"
 waitForPort = 8080
 
 [[workflows.workflow]]
-name = "backend"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "./gradlew build && ./gradlew run"
-
-[[workflows.workflow]]
 name = "Frontend"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd frontend && npx quasar clean --qconf && npx quasar dev --host 0.0.0.0 --port 5000"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && node minimal-server.js"
+waitForPort = 5000
 
 [[ports]]
 localPort = 5000

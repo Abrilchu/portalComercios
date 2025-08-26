@@ -11,7 +11,7 @@ micronaut:
         signatures:
           secret:
             generator:
-              secret: ${JWT_SECRET:pleasechangethissecretkey}
+              secret: ${JWT_SECRET:uxdual-super-secret-jwt-key-2024-for-authentication-system-minimum-256-bits}
         generator:
           access-token:
             expiration: 86400 # 24 hours

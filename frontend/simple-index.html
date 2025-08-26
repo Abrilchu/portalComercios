@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Dual - Portal de Comercios</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quasar@2.14.1/dist/quasar.prod.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        .error {
+            color: #f44336;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .success {
+            color: #4caf50;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .title {
+            text-align: center;
+            color: #1976d2;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">UX Dual Portal</h1>
+        <div id="loginForm">
+            <div class="form-group">
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" value="owner1" placeholder="Ingrese su usuario">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" value="password123" placeholder="Ingrese su contraseña">
+            </div>
+            <button onclick="login()">Iniciar Sesión</button>
+            <div id="message"></div>
+        </div>
+        
+        <div id="dashboard" style="display: none;">
+            <h2>Dashboard</h2>
+            <div id="userInfo"></div>
+            <button onclick="loadDashboard()">Cargar Estadísticas</button>
+            <button onclick="loadPayments()">Ver Pagos</button>
+            <button onclick="logout()" style="background-color: #f44336; margin-top: 10px;">Cerrar Sesión</button>
+            <div id="dashboardContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = null;
+
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    authToken = data.token;
+                    localStorage.setItem('authToken', authToken);
+                    
+                    messageDiv.innerHTML = '<div class="success">¡Login exitoso!</div>';
+                    document.getElementById('loginForm').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+                    
+                    document.getElementById('userInfo').innerHTML = `
+                        <p><strong>Usuario:</strong> ${data.username}</p>
+                        <p><strong>Email:</strong> ${data.email}</p>
+                        <p><strong>Rol:</strong> ${data.role}</p>
+                        <p><strong>Comercio ID:</strong> ${data.commerceId}</p>
+                        <p><strong>Sucursales:</strong> ${data.branchIds.join(', ')}</p>
+                        <p><strong>Cajeros:</strong> ${data.cashierIds.join(', ')}</p>
+                    `;
+                } else {
+                    const error = await response.json();
+                    messageDiv.innerHTML = `<div class="error">Error: ${error.message || 'Login fallido'}</div>`;
+                }
+            } catch (error) {
+                messageDiv.innerHTML = `<div class="error">Error de conexión: ${error.message}</div>`;
+            }
+        }
+
+        async function loadDashboard() {
+            const contentDiv = document.getElementById('dashboardContent');
+            
+            try {
+                const response = await fetch('/api/dashboard/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const stats = await response.json();
+                    contentDiv.innerHTML = `
+                        <h3>Estadísticas del Dashboard</h3>
+                        <p><strong>Total Pagos:</strong> ${stats.totalPayments || 0}</p>
+                        <p><strong>Pagos Aprobados:</strong> ${stats.approvedPayments || 0}</p>
+                        <p><strong>Monto Total:</strong> $${stats.totalAmount || 0}</p>
+                        <p><strong>Total Clientes:</strong> ${stats.totalCustomers || 0}</p>
+                    `;
+                } else {
+                    contentDiv.innerHTML = '<div class="error">Error al cargar estadísticas</div>';
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+
+        async function loadPayments() {
+            const contentDiv = document.getElementById('dashboardContent');
+            
+            try {
+                const response = await fetch('/api/payments', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const payments = await response.json();
+                    contentDiv.innerHTML = `
+                        <h3>Últimos Pagos</h3>
+                        <div style="max-height: 300px; overflow-y: auto;">
+                            ${payments.map(payment => `
+                                <div style="border: 1px solid #ddd; padding: 10px; margin: 5px 0; border-radius: 4px;">
+                                    <p><strong>ID:</strong> ${payment.id}</p>
+                                    <p><strong>Cliente:</strong> ${payment.customerName}</p>
+                                    <p><strong>Monto:</strong> $${payment.amount}</p>
+                                    <p><strong>Estado:</strong> ${payment.status}</p>
+                                    <p><strong>Fecha:</strong> ${new Date(payment.createdAt).toLocaleString()}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    contentDiv.innerHTML = '<div class="error">Error al cargar pagos</div>';
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+
+        function logout() {
+            authToken = null;
+            localStorage.removeItem('authToken');
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('message').innerHTML = '';
+            document.getElementById('dashboardContent').innerHTML = '';
+        }
+
+        // Check for existing token on page load
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                authToken = token;
+                // You could validate the token here
+            }
+        });
+    </script>
+</body>
+</html>
