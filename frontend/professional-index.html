@@ -532,6 +532,63 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Activity Styles */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+        }
+
+        .activity-icon.approved {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .activity-icon.pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .activity-icon.liquidated {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .activity-icon.rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .activity-subtitle {
+            color: #6b7280;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -840,7 +897,37 @@
 
             // Setup event listeners
             setupEventListeners();
+            
+            // Add bypass button for demo purposes
+            addBypassButton();
         });
+        
+        function addBypassButton() {
+            const loginForm = document.getElementById('loginForm');
+            const bypassBtn = document.createElement('button');
+            bypassBtn.type = 'button';
+            bypassBtn.className = 'btn btn-secondary';
+            bypassBtn.textContent = 'Ver Dashboard (Demo)';
+            bypassBtn.style.marginTop = '12px';
+            bypassBtn.style.width = '100%';
+            bypassBtn.style.background = '#6b7280';
+            bypassBtn.onclick = function() {
+                // Simulate successful login for demo
+                currentUser = {
+                    username: 'owner1',
+                    email: 'owner@uxdual.com',
+                    role: 'OWNER',
+                    commerceId: 1,
+                    branchIds: [1, 2],
+                    cashierIds: [1, 2, 3]
+                };
+                authToken = 'demo-token';
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                localStorage.setItem('authToken', authToken);
+                showDashboard();
+            };
+            loginForm.appendChild(bypassBtn);
+        }
 
         function setupEventListeners() {
             // Login form
@@ -1016,6 +1103,9 @@
             
             // Setup auto-refresh
             setInterval(loadDashboardData, 30000); // Refresh every 30 seconds
+            
+            // Load sample data for demo
+            loadSampleData();
             setInterval(updateTime, 1000); // Update time every second
         }
 
@@ -1360,6 +1450,146 @@
         function showError(message) {
             document.getElementById('loginAlert').innerHTML = 
                 `<div class="alert alert-error">${message}</div>`;
+        }
+
+        function loadSampleData() {
+            // Sample payments data
+            paymentsData = [
+                {
+                    id: 1,
+                    paymentId: 'PAY001',
+                    amount: 25000,
+                    status: 'APROBADA',
+                    paymentMethod: 'QR Code',
+                    branchName: 'Sucursal Centro',
+                    cashierName: 'Caja 1',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    paymentId: 'PAY002',
+                    amount: 15750,
+                    status: 'PEND_LIQ',
+                    paymentMethod: 'QR Code',
+                    branchName: 'Sucursal Norte',
+                    cashierName: 'Caja 2',
+                    createdAt: new Date(Date.now() - 3600000).toISOString()
+                },
+                {
+                    id: 3,
+                    paymentId: 'PAY003',
+                    amount: 42300,
+                    status: 'LIQUIDADA',
+                    paymentMethod: 'Open Amount',
+                    branchName: 'Sucursal Centro',
+                    cashierName: 'Caja 1',
+                    createdAt: new Date(Date.now() - 7200000).toISOString()
+                },
+                {
+                    id: 4,
+                    paymentId: 'PAY004',
+                    amount: 8500,
+                    status: 'RECHAZADA',
+                    paymentMethod: 'QR Code',
+                    branchName: 'Sucursal Sur',
+                    cashierName: 'Caja 3',
+                    createdAt: new Date(Date.now() - 10800000).toISOString()
+                }
+            ];
+
+            // Sample customers data
+            customersData = [
+                {
+                    id: 1,
+                    name: 'María González',
+                    email: 'maria@email.com',
+                    phone: '+54 11 1234-5678',
+                    totalSpent: 127500,
+                    ordersCount: 15,
+                    status: 'VIP'
+                },
+                {
+                    id: 2,
+                    name: 'Carlos Rodríguez',
+                    email: 'carlos@email.com',
+                    phone: '+54 11 8765-4321',
+                    totalSpent: 85300,
+                    ordersCount: 8,
+                    status: 'Regular'
+                },
+                {
+                    id: 3,
+                    name: 'Ana López',
+                    email: 'ana@email.com',
+                    phone: '+54 11 5555-0123',
+                    totalSpent: 45200,
+                    ordersCount: 5,
+                    status: 'Regular'
+                }
+            ];
+
+            // Update dashboard stats
+            updateDashboardStats();
+            
+            // Update tables if they're visible
+            if (currentView === 'orders') {
+                updateOrdersTable(paymentsData);
+            }
+            if (currentView === 'clients') {
+                updateClientsTable(customersData);
+            }
+        }
+
+        function updateDashboardStats() {
+            const today = new Date().toDateString();
+            const todayPayments = paymentsData.filter(p => new Date(p.createdAt).toDateString() === today);
+            const approvedToday = todayPayments.filter(p => p.status === 'APROBADA');
+            const pendingLiq = paymentsData.filter(p => p.status === 'PEND_LIQ');
+            const thisMonth = paymentsData.filter(p => p.status === 'LIQUIDADA');
+
+            const totalToday = todayPayments.reduce((sum, p) => sum + p.amount, 0);
+            const approvedAmount = approvedToday.reduce((sum, p) => sum + p.amount, 0);
+            const pendingAmount = pendingLiq.reduce((sum, p) => sum + p.amount, 0);
+            const liquidatedAmount = thisMonth.reduce((sum, p) => sum + p.amount, 0);
+
+            document.getElementById('todaySalesValue').textContent = `$${formatMoney(totalToday)}`;
+            document.getElementById('todaySalesChange').textContent = `${todayPayments.length} transacciones`;
+
+            document.getElementById('approvedValue').textContent = `$${formatMoney(approvedAmount)}`;
+            document.getElementById('approvedChange').textContent = `${approvedToday.length} aprobadas`;
+
+            document.getElementById('pendingValue').textContent = `$${formatMoney(pendingAmount)}`;
+            document.getElementById('pendingChange').textContent = `${pendingLiq.length} pendientes`;
+
+            document.getElementById('liquidatedValue').textContent = `$${formatMoney(liquidatedAmount)}`;
+            document.getElementById('liquidatedChange').textContent = `+${thisMonth.length} este mes`;
+
+            // Update recent activity
+            const recentActivity = document.getElementById('recentActivity');
+            recentActivity.className = '';
+            recentActivity.innerHTML = `
+                <div class="activity-item">
+                    <div class="activity-icon approved"><i class="material-icons">check_circle</i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">Pago aprobado - $${formatMoney(25000)}</div>
+                        <div class="activity-subtitle">PAY001 • Sucursal Centro • Hace 5 min</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon pending"><i class="material-icons">schedule</i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">Pago pendiente liquidación - $${formatMoney(15750)}</div>
+                        <div class="activity-subtitle">PAY002 • Sucursal Norte • Hace 1 hora</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon liquidated"><i class="material-icons">trending_up</i></div>
+                    <div class="activity-content">
+                        <div class="activity-title">Pago liquidado - $${formatMoney(42300)}</div>
+                        <div class="activity-subtitle">PAY003 • Sucursal Centro • Hace 2 horas</div>
+                    </div>
+                </div>
+            `;
         }
     </script>
 </body>
