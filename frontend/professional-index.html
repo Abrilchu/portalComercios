@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UX Dual - Portal de Comercios</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Odia:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/quasar@2.14.1/dist/quasar.prod.css" rel="stylesheet">
     <style>
         * {
@@ -14,9 +15,27 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #EEEEEE;
             line-height: 1.6;
+        }
+
+        /* UX Capital Brand Colors */
+        :root {
+            --ux-main-blue: #1C304F;
+            --ux-primary-green: #1BD696;
+            --ux-secondary-green: #54F8A6;
+            --ux-dark-blue: #0E1B38;
+            --ux-light-gray: #EEEEEE;
+        }
+
+        /* Typography Classes */
+        .font-primary {
+            font-family: 'Anek Odia', sans-serif;
+        }
+
+        .font-secondary {
+            font-family: 'Montserrat', sans-serif;
         }
 
         /* Login Styles */
@@ -25,7 +44,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--ux-main-blue) 0%, var(--ux-dark-blue) 100%);
         }
 
         .login-card {
@@ -45,7 +64,7 @@
         }
 
         .login-logo .logo-icon {
-            background: #5865f2;
+            background: var(--ux-primary-green);
             color: white;
             width: 50px;
             height: 50px;
@@ -58,16 +77,18 @@
         }
 
         .login-logo .logo-text {
-            font-size: 24px;
-            font-weight: 600;
-            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 700;
+            font-family: 'Anek Odia', sans-serif;
+            color: var(--ux-main-blue);
         }
 
         .login-subtitle {
-            color: #6c757d;
+            color: var(--ux-main-blue);
             text-align: center;
             margin-bottom: 30px;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 500;
         }
 
         .form-group {
@@ -92,13 +113,13 @@
 
         .form-control:focus {
             outline: none;
-            border-color: #5865f2;
+            border-color: var(--ux-primary-green);
         }
 
         .btn-primary {
             width: 100%;
             padding: 14px;
-            background: #5865f2;
+            background: var(--ux-main-blue);
             color: white;
             border: none;
             border-radius: 8px;
@@ -109,7 +130,7 @@
         }
 
         .btn-primary:hover {
-            background: #4c59d4;
+            background: var(--ux-dark-blue);
         }
 
         .btn-primary:disabled {
@@ -164,7 +185,7 @@
         }
 
         .sidebar-logo .logo-icon {
-            background: #5865f2;
+            background: var(--ux-primary-green);
             color: white;
             width: 40px;
             height: 40px;
@@ -178,8 +199,9 @@
 
         .sidebar-logo .logo-text {
             font-size: 20px;
-            font-weight: 600;
-            color: #1f2937;
+            font-weight: 700;
+            font-family: 'Anek Odia', sans-serif;
+            color: var(--ux-main-blue);
         }
 
         .sidebar-subtitle {
@@ -220,8 +242,8 @@
 
         .nav-item:hover,
         .nav-item.active {
-            background: #f3f4f6;
-            color: #5865f2;
+            background: rgba(27, 214, 150, 0.1);
+            color: var(--ux-primary-green);
         }
 
         .nav-item .material-icons {
@@ -248,7 +270,8 @@
         .header h1 {
             font-size: 32px;
             font-weight: 700;
-            color: #1f2937;
+            font-family: 'Anek Odia', sans-serif;
+            color: var(--ux-main-blue);
             margin-bottom: 8px;
         }
 
@@ -316,19 +339,19 @@
         }
 
         .stat-card.sales .icon {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: var(--ux-main-blue);
         }
 
         .stat-card.approved .icon {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            background: var(--ux-primary-green);
         }
 
         .stat-card.pending .icon {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: var(--ux-secondary-green);
         }
 
         .stat-card.liquidated .icon {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            background: var(--ux-dark-blue);
         }
 
         .stat-value {
@@ -599,9 +622,9 @@
                 <div class="logo-icon">
                     <i class="material-icons">store</i>
                 </div>
-                <div class="logo-text">UX Dual</div>
+                <div class="logo-text">UX Capital</div>
             </div>
-            <div class="login-subtitle">Portal Comercios</div>
+            <div class="login-subtitle">Tus finanzas. Simples</div>
             
             <div id="loginAlert"></div>
             
@@ -631,8 +654,8 @@
                         <i class="material-icons">store</i>
                     </div>
                     <div>
-                        <div class="logo-text">UX Dual</div>
-                        <div class="sidebar-subtitle">Portal Comercios</div>
+                        <div class="logo-text">UX Capital</div>
+                        <div class="sidebar-subtitle">Tus finanzas. Simples</div>
                     </div>
                 </div>
             </div>
@@ -1176,16 +1199,19 @@
         }
 
         function updateDashboardStats(stats) {
+            console.log('Updating dashboard with stats:', stats);
+            
+            // Update values with real data from backend using correct element IDs
             document.getElementById('salesValue').textContent = `$${formatMoney(stats.totalAmount || 0)}`;
-            document.getElementById('approvedValue').textContent = stats.approvedPayments || 0;
+            document.getElementById('approvedValue').textContent = `$${formatMoney(stats.approvedAmount || 0)}`;
             document.getElementById('pendingValue').textContent = `$${formatMoney(stats.pendingAmount || 0)}`;
             document.getElementById('liquidatedValue').textContent = `$${formatMoney(stats.liquidatedAmount || 0)}`;
             
-            // Update change indicators (mock data for now)
-            document.getElementById('salesChange').textContent = '+8.2% vs ayer';
-            document.getElementById('approvedChange').textContent = '+12 vs ayer';
-            document.getElementById('pendingChange').textContent = '23 vs ayer';
-            document.getElementById('liquidatedChange').textContent = '+15.3% vs ayer';
+            // Update change indicators with real counts
+            document.getElementById('salesChange').textContent = `${stats.totalPayments || 0} transacciones`;
+            document.getElementById('approvedChange').textContent = `${stats.approvedPayments || 0} aprobadas`;
+            document.getElementById('pendingChange').textContent = `${stats.pendingPayments || 0} pendientes`;
+            document.getElementById('liquidatedChange').textContent = `${stats.liquidatedPayments || 0} liquidadas`;
         }
 
         function updateRecentActivity(payments) {

@@ -8,6 +8,21 @@ The system supports different user roles (cashier, manager, owner) with role-bas
 
 Preferred communication style: Simple, everyday language.
 
+## Brand Identity
+- **Brand**: UX Capital/UX Dual
+- **Primary Colors**: 
+  - Main Blue: #1C304F
+  - Primary Green: #1BD696  
+  - Secondary Green: #54F8A6
+  - Dark Blue: #0E1B38
+  - Light Gray: #EEEEEE
+- **Typography**: 
+  - Primary: Anek Odia (titles, main headings)
+  - Secondary: Montserrat (body text, secondary headings)
+- **Philosophy**: Solvencia (solvency), Simpleza (simplicity), Rapidez (speed)
+- **Tagline**: "Tus finanzas. Simples"
+- **Icon Style**: Ionic icons, minimalist and clean
+
 # System Architecture
 
 ## Frontend Architecture
