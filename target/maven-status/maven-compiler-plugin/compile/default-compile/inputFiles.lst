@@ -21,6 +21,7 @@
 /home/runner/workspace/src/main/java/com/uxdual/portal/model/UserRole.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/repository/UserRepository.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/repository/BranchRepository.java
+/home/runner/workspace/src/main/java/com/uxdual/portal/controller/DevController.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/model/Customer.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/repository/PaymentRepository.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/config/SecurityConfig.java
