@@ -3,7 +3,13 @@ package com.uxdual.portal.service;
 import com.uxdual.portal.dto.PaymentDto;
 import com.uxdual.portal.dto.PaymentFilter;
 import com.uxdual.portal.model.Payment;
+import com.uxdual.portal.model.Branch;
+import com.uxdual.portal.model.Cashier;
+import com.uxdual.portal.model.Customer;
 import com.uxdual.portal.repository.PaymentRepository;
+import com.uxdual.portal.repository.BranchRepository;
+import com.uxdual.portal.repository.CashierRepository;
+import com.uxdual.portal.repository.CustomerRepository;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
 import jakarta.inject.Singleton;
@@ -16,9 +22,18 @@ import java.util.stream.Collectors;
 public class PaymentService {
     
     private final PaymentRepository paymentRepository;
+    private final BranchRepository branchRepository;
+    private final CashierRepository cashierRepository;
+    private final CustomerRepository customerRepository;
     
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository,
+                         BranchRepository branchRepository,
+                         CashierRepository cashierRepository,
+                         CustomerRepository customerRepository) {
         this.paymentRepository = paymentRepository;
+        this.branchRepository = branchRepository;
+        this.cashierRepository = cashierRepository;
+        this.customerRepository = customerRepository;
     }
     
     public Page<PaymentDto> getPayments(PaymentFilter filter, List<Long> allowedBranchIds, List<Long> allowedCashierIds) {
@@ -89,16 +104,20 @@ public class PaymentService {
         dto.setCreatedAt(payment.getCreatedAt());
         dto.setUpdatedAt(payment.getUpdatedAt());
         
-        if (payment.getCustomer() != null) {
-            dto.setCustomerName(payment.getCustomer().getName());
+        // Load related entities manually since JPA relations are not working
+        if (payment.getCustomerId() != null) {
+            customerRepository.findById(payment.getCustomerId())
+                .ifPresent(customer -> dto.setCustomerName(customer.getName()));
         }
         
-        if (payment.getBranch() != null) {
-            dto.setBranchName(payment.getBranch().getName());
+        if (payment.getBranchId() != null) {
+            branchRepository.findById(payment.getBranchId())
+                .ifPresent(branch -> dto.setBranchName(branch.getName()));
         }
         
-        if (payment.getCashier() != null) {
-            dto.setCashierName(payment.getCashier().getName());
+        if (payment.getCashierId() != null) {
+            cashierRepository.findById(payment.getCashierId())
+                .ifPresent(cashier -> dto.setCashierName(cashier.getName()));
         }
         
         return dto;
