@@ -17,6 +17,10 @@ import io.micronaut.core.annotation.Nullable;
 @JdbcRepository(dialect = Dialect.POSTGRES)
 public interface PaymentRepository extends CrudRepository<Payment, Long> {
     
+    @Query(value = "SELECT * FROM payments ORDER BY created_at DESC",
+           countQuery = "SELECT COUNT(*) FROM payments")
+    Page<Payment> findAllOrderByCreatedAtDesc(Pageable pageable);
+    
     Page<Payment> findByBranchIdInOrderByCreatedAtDesc(List<Long> branchIds, Pageable pageable);
     
     Page<Payment> findByCashierIdInOrderByCreatedAtDesc(List<Long> cashierIds, Pageable pageable);

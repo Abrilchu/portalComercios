@@ -63,6 +63,12 @@ public class PaymentService {
             .collect(Collectors.toList());
     }
     
+    public Page<PaymentDto> getAllPayments() {
+        Pageable pageable = Pageable.from(0, 20);
+        Page<Payment> payments = paymentRepository.findAllOrderByCreatedAtDesc(pageable);
+        return payments.map(this::convertToDto);
+    }
+    
     public PaymentDto getPaymentDetail(Long paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
             .orElseThrow(() -> new RuntimeException("Payment not found"));
