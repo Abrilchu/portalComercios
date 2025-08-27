@@ -41,12 +41,12 @@ public interface PaymentRepository extends CrudRepository<Payment, Long> {
     @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE - INTERVAL '1 day'")
     Long getPaymentCountYesterday();
     
-    // Temporarily disabled due to enum casting issues - will fix later
-    // @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE AND status::text = :status")
-    // BigDecimal getTotalByStatusToday(String status);
+    // Fixed status queries using proper casting
+    @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE AND status = CAST(:status AS payment_status)")
+    BigDecimal getTotalByStatusToday(String status);
     
-    // @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND status::text = :status")
-    // Long getCountByStatusToday(String status);
+    @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND status = CAST(:status AS payment_status)")
+    Long getCountByStatusToday(String status);
     
     List<Payment> findByLastSyncCursorAfterAndBranchIdIn(LocalDateTime sinceCursor, List<Long> branchIds);
     
