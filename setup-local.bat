@@ -38,7 +38,7 @@ if %errorlevel% neq 0 (
 )
 
 echo [3/5] Creando esquema de base de datos...
-psql -h %PGHOST% -U %PGUSER% -d %PGDATABASE% -f backend/src/main/resources/db/migration/V3__create_erd_schema.sql
+psql -h %PGHOST% -U %PGUSER% -d %PGDATABASE% -f backend/src/main/resources/db/migration/V1__initial_schema.sql
 if %errorlevel% neq 0 (
     echo ERROR: No se pudo crear el esquema de base de datos
     pause
