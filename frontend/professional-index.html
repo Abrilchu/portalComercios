@@ -1195,50 +1195,57 @@
                     const stats = await response.json();
                     console.log('Dashboard stats loaded:', stats);
                     
-                    // Direct DOM update to bypass cache issues
-                    setTimeout(() => {
-                        const salesEl = document.getElementById('salesValue');
-                        const changeEl = document.getElementById('salesChange');
+                    // IMMEDIATE DIRECT UPDATE - NO TIMEOUT
+                    console.log('=== STARTING IMMEDIATE UPDATE ===');
+                    
+                    // Update sales value immediately
+                    const salesEl = document.getElementById('salesValue');
+                    if (salesEl) {
+                        const amount = stats.totalAmount || 0;
+                        const formattedAmount = amount.toLocaleString('es-AR', { 
+                            minimumFractionDigits: 0, 
+                            maximumFractionDigits: 0 
+                        });
+                        salesEl.textContent = `$${formattedAmount}`;
+                        console.log(`✓ IMMEDIATE: salesValue updated to $${formattedAmount}`);
+                    } else {
+                        console.error('❌ salesValue element not found');
+                    }
+                    
+                    // Update sales change immediately
+                    const changeEl = document.getElementById('salesChange');
+                    if (changeEl) {
+                        const changePercent = stats.salesChangePercent || 0;
+                        const changeIcon = changePercent >= 0 ? '↑' : '↓';
+                        const changeClass = changePercent >= 0 ? 'positive' : 'negative';
                         
-                        console.log('Direct update attempt - salesValue exists:', !!salesEl, 'salesChange exists:', !!changeEl);
-                        
-                        if (salesEl && changeEl) {
-                            // Update sales value
-                            const amount = stats.totalAmount || 0;
-                            const formattedAmount = amount.toLocaleString('es-AR', { 
-                                minimumFractionDigits: 0, 
-                                maximumFractionDigits: 0 
-                            });
-                            salesEl.textContent = `$${formattedAmount}`;
-                            console.log(`✓ DIRECT UPDATE: salesValue set to $${formattedAmount}`);
-                            
-                            // Update change indicator
-                            const changePercent = stats.salesChangePercent || 0;
-                            const changeIcon = changePercent >= 0 ? '↑' : '↓';
-                            const changeClass = changePercent >= 0 ? 'positive' : 'negative';
-                            
-                            changeEl.className = `stat-change ${changeClass}`;
-                            changeEl.textContent = `${changeIcon}${Math.abs(changePercent).toFixed(1)}% vs ayer`;
-                            console.log(`✓ DIRECT UPDATE: salesChange set to ${changeIcon}${Math.abs(changePercent).toFixed(1)}% vs ayer`);
-                            
-                            // Update other elements
-                            const updates = [
-                                { id: 'approvedValue', value: `${stats.approvedPayments || 0}` }, // Show count, not money
-                                { id: 'pendingValue', value: `$${(stats.pendingAmount || 0).toLocaleString('es-AR')}` },
-                                { id: 'liquidatedValue', value: `$${(stats.liquidatedAmount || 0).toLocaleString('es-AR')}` }
-                            ];
-                            
-                            updates.forEach(update => {
-                                const el = document.getElementById(update.id);
-                                if (el) {
-                                    el.textContent = update.value;
-                                    console.log(`✓ DIRECT UPDATE: ${update.id} set to ${update.value}`);
-                                }
-                            });
-                        } else {
-                            console.error('❌ DIRECT UPDATE FAILED: Elements not found');
-                        }
-                    }, 200);
+                        changeEl.className = `stat-change ${changeClass}`;
+                        changeEl.textContent = `${changeIcon}${Math.abs(changePercent).toFixed(1)}% vs ayer`;
+                        console.log(`✓ IMMEDIATE: salesChange updated to ${changeIcon}${Math.abs(changePercent).toFixed(1)}% vs ayer`);
+                    } else {
+                        console.error('❌ salesChange element not found');
+                    }
+                    
+                    // Update approved transactions count immediately
+                    const approvedEl = document.getElementById('approvedValue');
+                    if (approvedEl) {
+                        approvedEl.textContent = `${stats.approvedPayments || 0}`;
+                        console.log(`✓ IMMEDIATE: approvedValue updated to ${stats.approvedPayments || 0}`);
+                    } else {
+                        console.error('❌ approvedValue element not found');
+                    }
+                    
+                    // Update pending amount immediately
+                    const pendingEl = document.getElementById('pendingValue');
+                    if (pendingEl) {
+                        const pendingAmount = (stats.pendingAmount || 0).toLocaleString('es-AR');
+                        pendingEl.textContent = `$${pendingAmount}`;
+                        console.log(`✓ IMMEDIATE: pendingValue updated to $${pendingAmount}`);
+                    } else {
+                        console.error('❌ pendingValue element not found');
+                    }
+                    
+                    console.log('=== IMMEDIATE UPDATE COMPLETED ===');
                 } else {
                     console.error('Failed to load dashboard stats:', response.status);
                 }
