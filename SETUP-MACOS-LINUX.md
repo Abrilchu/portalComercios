@@ -109,7 +109,7 @@ psql -h localhost -U uxdual_user -d uxdual_portal -c "SELECT 'Conexión exitosa'
 
 3. **Crear tablas:**
 ```bash
-psql -h localhost -U uxdual_user -d uxdual_portal -f backend/src/main/resources/db/migration/V3__create_erd_schema.sql
+psql -h localhost -U uxdual_user -d uxdual_portal -f backend/src/main/resources/db/migration/V1__initial_schema.sql
 ```
 
 4. **Insertar datos de ejemplo:**
