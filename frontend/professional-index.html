@@ -1223,7 +1223,7 @@
                             
                             // Update other elements
                             const updates = [
-                                { id: 'approvedValue', value: `$${(stats.approvedAmount || 0).toLocaleString('es-AR')}` },
+                                { id: 'approvedValue', value: `${stats.approvedPayments || 0}` }, // Show count, not money
                                 { id: 'pendingValue', value: `$${(stats.pendingAmount || 0).toLocaleString('es-AR')}` },
                                 { id: 'liquidatedValue', value: `$${(stats.liquidatedAmount || 0).toLocaleString('es-AR')}` }
                             ];
@@ -1304,10 +1304,10 @@
                     
                     // Update other values safely
                     const updates = [
-                        { id: 'approvedValue', value: `$${formatMoney(stats.approvedAmount || 0)}` },
+                        { id: 'approvedValue', value: `${stats.approvedPayments || 0}` }, // Show count, not money
                         { id: 'pendingValue', value: `$${formatMoney(stats.pendingAmount || 0)}` },
                         { id: 'liquidatedValue', value: `$${formatMoney(stats.liquidatedAmount || 0)}` },
-                        { id: 'approvedChange', value: `${stats.approvedPayments || 0} aprobadas` },
+                        { id: 'approvedChange', value: `+${stats.approvedPayments || 0} vs ayer` },
                         { id: 'pendingChange', value: `${stats.pendingPayments || 0} pendientes` },
                         { id: 'liquidatedChange', value: `${stats.liquidatedPayments || 0} liquidadas` }
                     ];
@@ -1716,7 +1716,7 @@
             ];
 
             // Update dashboard stats
-            updateDashboardStats();
+            // updateDashboardStats(); // Commented out - using API-based updates instead
             
             // Update tables if they're visible
             if (currentView === 'orders') {
