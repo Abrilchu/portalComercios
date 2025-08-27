@@ -29,12 +29,22 @@ else
     echo "  2. La base de datos 'uxdual_portal' exista"
     echo "  3. El usuario 'uxdual_user' tenga permisos"
     echo
-    echo "Para crear la base de datos, ejecute:"
-    echo "  sudo -u postgres psql"
+    echo "Para crear la base de datos según su sistema:"
+    echo
+    echo "macOS (Homebrew):"
+    echo "  psql postgres"
     echo "  CREATE DATABASE uxdual_portal;"
     echo "  CREATE USER uxdual_user WITH PASSWORD 'uxdual123';"
     echo "  GRANT ALL PRIVILEGES ON DATABASE uxdual_portal TO uxdual_user;"
     echo "  \\q"
+    echo
+    echo "Linux (si existe usuario postgres):"
+    echo "  sudo -u postgres psql"
+    echo "  [mismos comandos SQL de arriba]"
+    echo
+    echo "Linux (si NO existe usuario postgres):"
+    echo "  psql -d postgres"
+    echo "  [mismos comandos SQL de arriba]"
     echo
     read -p "Presione Enter para continuar..."
     exit 1
