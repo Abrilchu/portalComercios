@@ -926,9 +926,9 @@
         let paymentsData = [];
         let customersData = [];
 
-        // Initialize app
+        // Initialize app - Version 1756305524
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing app...');
+            console.log('DOM loaded, initializing app - Version 1756305524...');
             
             // Check for existing token
             const token = localStorage.getItem('authToken');
@@ -1195,12 +1195,50 @@
                     const stats = await response.json();
                     console.log('Dashboard stats loaded:', stats);
                     
-                    // Wait for DOM to be ready before updating
+                    // Direct DOM update to bypass cache issues
                     setTimeout(() => {
-                        console.log('About to call updateDashboardStats...');
-                        updateDashboardStats(stats);
-                        console.log('Called updateDashboardStats');
-                    }, 100);
+                        const salesEl = document.getElementById('salesValue');
+                        const changeEl = document.getElementById('salesChange');
+                        
+                        console.log('Direct update attempt - salesValue exists:', !!salesEl, 'salesChange exists:', !!changeEl);
+                        
+                        if (salesEl && changeEl) {
+                            // Update sales value
+                            const amount = stats.totalAmount || 0;
+                            const formattedAmount = amount.toLocaleString('es-AR', { 
+                                minimumFractionDigits: 0, 
+                                maximumFractionDigits: 0 
+                            });
+                            salesEl.textContent = `$${formattedAmount}`;
+                            console.log(`✓ DIRECT UPDATE: salesValue set to $${formattedAmount}`);
+                            
+                            // Update change indicator
+                            const changePercent = stats.salesChangePercent || 0;
+                            const changeIcon = changePercent >= 0 ? '↑' : '↓';
+                            const changeClass = changePercent >= 0 ? 'positive' : 'negative';
+                            
+                            changeEl.className = `stat-change ${changeClass}`;
+                            changeEl.textContent = `${changeIcon}${Math.abs(changePercent).toFixed(1)}% vs ayer`;
+                            console.log(`✓ DIRECT UPDATE: salesChange set to ${changeIcon}${Math.abs(changePercent).toFixed(1)}% vs ayer`);
+                            
+                            // Update other elements
+                            const updates = [
+                                { id: 'approvedValue', value: `$${(stats.approvedAmount || 0).toLocaleString('es-AR')}` },
+                                { id: 'pendingValue', value: `$${(stats.pendingAmount || 0).toLocaleString('es-AR')}` },
+                                { id: 'liquidatedValue', value: `$${(stats.liquidatedAmount || 0).toLocaleString('es-AR')}` }
+                            ];
+                            
+                            updates.forEach(update => {
+                                const el = document.getElementById(update.id);
+                                if (el) {
+                                    el.textContent = update.value;
+                                    console.log(`✓ DIRECT UPDATE: ${update.id} set to ${update.value}`);
+                                }
+                            });
+                        } else {
+                            console.error('❌ DIRECT UPDATE FAILED: Elements not found');
+                        }
+                    }, 200);
                 } else {
                     console.error('Failed to load dashboard stats:', response.status);
                 }
@@ -1226,30 +1264,30 @@
         }
 
         function updateDashboardStats(stats) {
-            console.log('=== UPDATING DASHBOARD STATS ===');
+            console.log('🔥 NEW VERSION: UPDATING DASHBOARD STATS v2.0 🔥');
             console.log('Stats received:', stats);
             
-            // Wait a bit more to ensure DOM is ready
-            setTimeout(() => {
+            // Function to attempt update with retry
+            function attemptUpdate(retryCount = 0) {
+                const maxRetries = 10;
+                
+                const salesValueEl = document.getElementById('salesValue');
+                const salesChangeEl = document.getElementById('salesChange');
+                
+                console.log(`Retry ${retryCount}: salesValue exists:`, !!salesValueEl, 'salesChange exists:', !!salesChangeEl);
+                
+                if (!salesValueEl || !salesChangeEl) {
+                    if (retryCount < maxRetries) {
+                        console.log(`Elements not found, retrying in ${50 * (retryCount + 1)}ms...`);
+                        setTimeout(() => attemptUpdate(retryCount + 1), 50 * (retryCount + 1));
+                        return;
+                    } else {
+                        console.error('❌ Max retries reached, elements still not found');
+                        return;
+                    }
+                }
+                
                 try {
-                    // Debug: Check if all elements exist
-                    const salesValueEl = document.getElementById('salesValue');
-                    const salesChangeEl = document.getElementById('salesChange');
-                    
-                    console.log('DOM Elements check:');
-                    console.log('- salesValue exists:', !!salesValueEl);
-                    console.log('- salesChange exists:', !!salesChangeEl);
-                    
-                    if (!salesValueEl) {
-                        console.error('❌ salesValue element not found! DOM may not be ready');
-                        return;
-                    }
-                    
-                    if (!salesChangeEl) {
-                        console.error('❌ salesChange element not found! DOM may not be ready');
-                        return;
-                    }
-                    
                     // Update main sales value
                     const formattedAmount = formatMoney(stats.totalAmount || 0);
                     salesValueEl.textContent = `$${formattedAmount}`;
@@ -1290,7 +1328,10 @@
                     console.error('❌ Error updating dashboard stats:', error);
                     console.error('Error details:', error.message);
                 }
-            }, 50); // Small delay to ensure DOM is ready
+            }
+            
+            // Start the update attempt
+            attemptUpdate();
         }
 
         function updateRecentActivity(payments) {
