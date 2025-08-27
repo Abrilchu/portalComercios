@@ -1194,9 +1194,13 @@
                 if (response.ok) {
                     const stats = await response.json();
                     console.log('Dashboard stats loaded:', stats);
-                    console.log('About to call updateDashboardStats...');
-                    updateDashboardStats(stats);
-                    console.log('Called updateDashboardStats');
+                    
+                    // Wait for DOM to be ready before updating
+                    setTimeout(() => {
+                        console.log('About to call updateDashboardStats...');
+                        updateDashboardStats(stats);
+                        console.log('Called updateDashboardStats');
+                    }, 100);
                 } else {
                     console.error('Failed to load dashboard stats:', response.status);
                 }
@@ -1225,18 +1229,33 @@
             console.log('=== UPDATING DASHBOARD STATS ===');
             console.log('Stats received:', stats);
             
-            try {
-                // Update main sales value
-                const salesValueEl = document.getElementById('salesValue');
-                if (salesValueEl) {
+            // Wait a bit more to ensure DOM is ready
+            setTimeout(() => {
+                try {
+                    // Debug: Check if all elements exist
+                    const salesValueEl = document.getElementById('salesValue');
+                    const salesChangeEl = document.getElementById('salesChange');
+                    
+                    console.log('DOM Elements check:');
+                    console.log('- salesValue exists:', !!salesValueEl);
+                    console.log('- salesChange exists:', !!salesChangeEl);
+                    
+                    if (!salesValueEl) {
+                        console.error('❌ salesValue element not found! DOM may not be ready');
+                        return;
+                    }
+                    
+                    if (!salesChangeEl) {
+                        console.error('❌ salesChange element not found! DOM may not be ready');
+                        return;
+                    }
+                    
+                    // Update main sales value
                     const formattedAmount = formatMoney(stats.totalAmount || 0);
                     salesValueEl.textContent = `$${formattedAmount}`;
                     console.log(`✓ Updated salesValue to: $${formattedAmount}`);
-                }
-                
-                // Update sales change indicator
-                const salesChangeEl = document.getElementById('salesChange');
-                if (salesChangeEl) {
+                    
+                    // Update sales change indicator
                     const changePercent = stats.salesChangePercent || 0;
                     const changeIcon = changePercent >= 0 ? '↑' : '↓';
                     const changeClass = changePercent >= 0 ? 'positive' : 'negative';
@@ -1244,45 +1263,34 @@
                     salesChangeEl.className = `stat-change ${changeClass}`;
                     salesChangeEl.textContent = `${changeIcon}${Math.abs(changePercent).toFixed(1)}% vs ayer`;
                     console.log(`✓ Updated salesChange to: ${changeIcon}${Math.abs(changePercent).toFixed(1)}% vs ayer`);
+                    
+                    // Update other values safely
+                    const updates = [
+                        { id: 'approvedValue', value: `$${formatMoney(stats.approvedAmount || 0)}` },
+                        { id: 'pendingValue', value: `$${formatMoney(stats.pendingAmount || 0)}` },
+                        { id: 'liquidatedValue', value: `$${formatMoney(stats.liquidatedAmount || 0)}` },
+                        { id: 'approvedChange', value: `${stats.approvedPayments || 0} aprobadas` },
+                        { id: 'pendingChange', value: `${stats.pendingPayments || 0} pendientes` },
+                        { id: 'liquidatedChange', value: `${stats.liquidatedPayments || 0} liquidadas` }
+                    ];
+                    
+                    updates.forEach(update => {
+                        const element = document.getElementById(update.id);
+                        if (element) {
+                            element.textContent = update.value;
+                            console.log(`✓ Updated ${update.id} to: ${update.value}`);
+                        } else {
+                            console.warn(`⚠ Element ${update.id} not found`);
+                        }
+                    });
+                    
+                    console.log('✓ Dashboard stats update completed successfully');
+                    
+                } catch (error) {
+                    console.error('❌ Error updating dashboard stats:', error);
+                    console.error('Error details:', error.message);
                 }
-                
-                // Update other values
-                const approvedValueEl = document.getElementById('approvedValue');
-                if (approvedValueEl) {
-                    approvedValueEl.textContent = `$${formatMoney(stats.approvedAmount || 0)}`;
-                }
-                
-                const pendingValueEl = document.getElementById('pendingValue');
-                if (pendingValueEl) {
-                    pendingValueEl.textContent = `$${formatMoney(stats.pendingAmount || 0)}`;
-                }
-                
-                const liquidatedValueEl = document.getElementById('liquidatedValue');
-                if (liquidatedValueEl) {
-                    liquidatedValueEl.textContent = `$${formatMoney(stats.liquidatedAmount || 0)}`;
-                }
-                
-                // Update counts in change indicators
-                const approvedChangeEl = document.getElementById('approvedChange');
-                if (approvedChangeEl) {
-                    approvedChangeEl.textContent = `${stats.approvedPayments || 0} aprobadas`;
-                }
-                
-                const pendingChangeEl = document.getElementById('pendingChange');
-                if (pendingChangeEl) {
-                    pendingChangeEl.textContent = `${stats.pendingPayments || 0} pendientes`;
-                }
-                
-                const liquidatedChangeEl = document.getElementById('liquidatedChange');
-                if (liquidatedChangeEl) {
-                    liquidatedChangeEl.textContent = `${stats.liquidatedPayments || 0} liquidadas`;
-                }
-                
-                console.log('✓ Dashboard stats update completed successfully');
-                
-            } catch (error) {
-                console.error('❌ Error updating dashboard stats:', error);
-            }
+            }, 50); // Small delay to ensure DOM is ready
         }
 
         function updateRecentActivity(payments) {
