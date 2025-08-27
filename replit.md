@@ -25,12 +25,25 @@ Preferred communication style: Simple, everyday language.
 
 # System Architecture
 
+## Project Structure
+The project is now organized into two main directories:
+- **backend/** - Java Micronaut application with Maven
+- **frontend/** - Vue 3 Quasar application with Node.js server
+
+## Backend Architecture
+- **Framework**: Java 17 with Micronaut Framework for REST API
+- **Database**: PostgreSQL with manual schema management (Flyway disabled)
+- **Build System**: Maven for dependency management and compilation
+- **Authentication**: JWT-based authentication with role-based access control
+- **Database Structure**: Multi-tenant with empresa (company) entity as tenant root
+
 ## Frontend Architecture
 - **Framework**: Vue 3 with Composition API for reactive component development
 - **UI Framework**: Quasar Framework for Material Design components and responsive layouts
 - **State Management**: Pinia for centralized store management with separate stores for authentication, dashboard, and payments
 - **Routing**: Vue Router 4 with route guards for authentication-based navigation
 - **Build System**: Module-based architecture with lazy loading for optimized performance
+- **Development Server**: Express.js proxy server for API communication
 
 ## Authentication & Authorization
 - **Token-based Authentication**: JWT tokens stored in localStorage with automatic header injection
