@@ -30,14 +30,15 @@ const server = http.createServer((req, res) => {
     });
     
     req.on('end', () => {
-      // Redirect specific endpoints to working dev endpoints
+      // Use the actual API endpoints (no redirection to dev endpoints)
       let apiPath = req.url;
       if (req.url === '/api/payments' || req.url.startsWith('/api/payments?')) {
-        apiPath = req.url.replace('/api/payments', '/api/dev/payments');
+        apiPath = req.url.replace('/api/payments', '/api/dev/payments'); // Still use dev for payments as it has more data
       }
-      if (req.url === '/api/dashboard/stats') {
-        apiPath = '/api/dev/dashboard/stats';
-      }
+      // Remove dashboard stats redirection to use the updated endpoint
+      // if (req.url === '/api/dashboard/stats') {
+      //   apiPath = '/api/dev/dashboard/stats';
+      // }
       
       const options = {
         hostname: BACKEND_HOST,

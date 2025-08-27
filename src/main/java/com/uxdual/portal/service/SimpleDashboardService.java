@@ -22,6 +22,43 @@ public class SimpleDashboardService {
             Long totalPayments = paymentRepository.getPaymentCountToday();
             BigDecimal totalAmount = paymentRepository.getTotalSalesToday();
             
+            System.out.println("DEBUG: Total payments today: " + totalPayments);
+            System.out.println("DEBUG: Total amount today: " + totalAmount);
+            
+            // Get counts by status for today
+            Long approvedPayments = null;
+            Long pendingPayments = null;
+            Long liquidatedPayments = null;
+            
+            try {
+                approvedPayments = paymentRepository.getCountByStatusToday("APROBADA");
+                System.out.println("DEBUG: Approved payments: " + approvedPayments);
+            } catch (Exception e) {
+                System.out.println("ERROR getting approved payments: " + e.getMessage());
+                approvedPayments = 0L;
+            }
+            
+            try {
+                pendingPayments = paymentRepository.getCountByStatusToday("PEND_LIQ");
+                System.out.println("DEBUG: Pending payments: " + pendingPayments);
+            } catch (Exception e) {
+                System.out.println("ERROR getting pending payments: " + e.getMessage());
+                pendingPayments = 0L;
+            }
+            
+            try {
+                liquidatedPayments = paymentRepository.getCountByStatusToday("LIQUIDADA");
+                System.out.println("DEBUG: Liquidated payments: " + liquidatedPayments);
+            } catch (Exception e) {
+                System.out.println("ERROR getting liquidated payments: " + e.getMessage());
+                liquidatedPayments = 0L;
+            }
+            
+            // Get amounts by status for today
+            BigDecimal approvedAmount = paymentRepository.getTotalByStatusToday("APROBADA");
+            BigDecimal pendingAmount = paymentRepository.getTotalByStatusToday("PEND_LIQ");
+            BigDecimal liquidatedAmount = paymentRepository.getTotalByStatusToday("LIQUIDADA");
+            
             // Get yesterday data for comparison
             BigDecimal totalAmountYesterday = paymentRepository.getTotalSalesYesterday();
             Long totalPaymentsYesterday = paymentRepository.getPaymentCountYesterday();
@@ -29,6 +66,12 @@ public class SimpleDashboardService {
             // Handle null values with defaults
             if (totalPayments == null) totalPayments = 0L;
             if (totalAmount == null) totalAmount = BigDecimal.ZERO;
+            if (approvedPayments == null) approvedPayments = 0L;
+            if (pendingPayments == null) pendingPayments = 0L;
+            if (liquidatedPayments == null) liquidatedPayments = 0L;
+            if (approvedAmount == null) approvedAmount = BigDecimal.ZERO;
+            if (pendingAmount == null) pendingAmount = BigDecimal.ZERO;
+            if (liquidatedAmount == null) liquidatedAmount = BigDecimal.ZERO;
             if (totalAmountYesterday == null) totalAmountYesterday = BigDecimal.ZERO;
             if (totalPaymentsYesterday == null) totalPaymentsYesterday = 0L;
             
@@ -42,10 +85,10 @@ public class SimpleDashboardService {
                 salesChangePercent = 100.0; // 100% increase from 0
             }
             
-            // Return simple stats - working version for now
+            // Return complete stats with proper counts
             return new DashboardStats(
-                totalPayments, 0L, 0L, 0L, // counts: total, approved, pending, liquidated
-                totalAmount, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, // amounts
+                totalPayments, approvedPayments, pendingPayments, liquidatedPayments, // counts
+                totalAmount, approvedAmount, pendingAmount, liquidatedAmount, // amounts
                 totalAmountYesterday, totalPaymentsYesterday, salesChangePercent
             );
             
