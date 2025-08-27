@@ -31,7 +31,7 @@ jdbc:
 flyway:
   datasources:
     default:
-      enabled: true
+      enabled: false
       locations: classpath:db/migration
 
 jackson:
