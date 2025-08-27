@@ -120,8 +120,10 @@ psql -h localhost -U uxdual_user -d uxdual_portal -f backend/src/main/resources/
 5. **Ejecutar el backend:**
 ```bash
 cd backend
-mvn compile exec:java
+mvn compile exec:java -Dmicronaut.environments=local
 ```
+
+**Nota:** El parámetro `-Dmicronaut.environments=local` usa la configuración específica para desarrollo local que tiene SSL deshabilitado.
 
 6. **Ejecutar el frontend:**
 ```bash
@@ -150,6 +152,9 @@ psql postgres
 GRANT ALL PRIVILEGES ON DATABASE uxdual_portal TO uxdual_user;
 \q
 ```
+
+### Error: "The server does not support SSL"
+Este error ocurre porque PostgreSQL local no tiene SSL habilitado por defecto. La configuración del backend ya está ajustada para usar `sslmode=disable` en conexiones locales. Si aún encuentras este error, verifica que estés usando las variables de entorno correctas.
 
 ### PostgreSQL no está ejecutándose
 ```bash

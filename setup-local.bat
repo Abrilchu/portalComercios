@@ -60,7 +60,7 @@ echo ===============================================
 echo.
 echo 1. BACKEND: Abrir una ventana de cmd y ejecutar:
 echo    cd backend
-echo    mvn compile exec:java
+echo    mvn compile exec:java -Dmicronaut.environments=local
 echo.
 echo 2. FRONTEND: Abrir otra ventana de cmd y ejecutar:
 echo    cd frontend

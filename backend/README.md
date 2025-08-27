@@ -212,8 +212,10 @@ Una vez que ambos servicios estén ejecutándose:
 
 ```bash
 cd backend
-mvn compile exec:java
+mvn compile exec:java -Dmicronaut.environments=local
 ```
+
+**Importante:** Usar `-Dmicronaut.environments=local` para configuración local sin SSL.
 
 El servidor se iniciará en: `http://localhost:8080`
 

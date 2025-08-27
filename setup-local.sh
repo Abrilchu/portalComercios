@@ -76,7 +76,7 @@ echo "==============================================="
 echo
 echo "1. BACKEND: Abrir una terminal y ejecutar:"
 echo "   cd backend"
-echo "   mvn compile exec:java"
+echo "   mvn compile exec:java -Dmicronaut.environments=local"
 echo
 echo "2. FRONTEND: Abrir otra terminal y ejecutar:"
 echo "   cd frontend"
