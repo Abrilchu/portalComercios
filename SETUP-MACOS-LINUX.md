@@ -14,6 +14,44 @@ ps aux | grep postgres
 psql --version
 ```
 
+## ⚠️ Si PostgreSQL no está ejecutándose
+
+Si recibes el error `No such file or directory` o `Is the server running locally`, necesitas iniciar PostgreSQL:
+
+### macOS - Iniciar PostgreSQL
+
+**Si se instaló con Homebrew:**
+```bash
+# Iniciar PostgreSQL
+brew services start postgresql
+
+# Verificar que esté ejecutándose
+brew services list | grep postgresql
+```
+
+**Si se instaló con el instalador oficial de PostgreSQL.org:**
+```bash
+# Buscar la ubicación de PostgreSQL
+ls /Library/PostgreSQL/*/bin/
+
+# Iniciar usando pg_ctl (ajusta la versión según tu instalación)
+sudo -u postgres /Library/PostgreSQL/17/bin/pg_ctl -D /Library/PostgreSQL/17/data start
+
+# O usar el comando de servicio
+sudo launchctl load -w /Library/LaunchDaemons/com.edb.launchd.postgresql-17.plist
+```
+
+**Método alternativo - Iniciar manualmente:**
+```bash
+# Encontrar el directorio de datos
+sudo find /usr/local -name "postgresql.conf" 2>/dev/null
+sudo find /opt -name "postgresql.conf" 2>/dev/null
+
+# Una vez encontrado el directorio, iniciar PostgreSQL
+# Ejemplo si está en /usr/local/var/postgres
+pg_ctl -D /usr/local/var/postgres start
+```
+
 ## 🚀 Solución Rápida
 
 ### Opción 1: Conectar con tu Usuario Actual
