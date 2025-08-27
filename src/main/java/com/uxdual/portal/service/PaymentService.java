@@ -80,14 +80,8 @@ public class PaymentService {
     
     public Page<PaymentDto> getAllPayments() {
         Pageable pageable = Pageable.from(0, 20);
-        try {
-            Page<Payment> payments = paymentRepository.findAllOrderByCreatedAtDesc(pageable);
-            return payments.map(this::convertToDto);
-        } catch (Exception e) {
-            System.err.println("Error fetching payments: " + e.getMessage());
-            // Return empty page as fallback
-            return Page.empty();
-        }
+        Page<Payment> payments = paymentRepository.findAllOrderByCreatedAtDesc(pageable);
+        return payments.map(this::convertToDto);
     }
     
     public PaymentDto getPaymentDetail(Long paymentId) {
