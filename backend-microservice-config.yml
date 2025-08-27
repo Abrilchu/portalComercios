@@ -1,3 +1,10 @@
+# Backend Microservice Configuration
+microservice:
+  name: "ux-dual-backend"
+  version: "1.0.0"
+  type: "api"
+  description: "UX Dual Portal Backend API Microservice"
+
 micronaut:
   application:
     name: ux-dual-backend-api
@@ -44,6 +51,8 @@ datasources:
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
     dialect: POSTGRES
+    maximum-pool-size: 10
+    minimum-idle: 2
 
 jdbc:
   default:
