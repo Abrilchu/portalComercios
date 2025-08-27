@@ -48,6 +48,13 @@ public interface PaymentRepository extends CrudRepository<Payment, Long> {
     @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND status = CAST(:status AS payment_status)")
     Long getCountByStatusToday(String status);
     
+    // Query for pending liquidation (APROBADA + PEND_LIQ)
+    @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE AND (status = CAST('APROBADA' AS payment_status) OR status = CAST('PEND_LIQ' AS payment_status))")
+    BigDecimal getTotalPendingLiquidationToday();
+    
+    @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND (status = CAST('APROBADA' AS payment_status) OR status = CAST('PEND_LIQ' AS payment_status))")
+    Long getCountPendingLiquidationToday();
+    
     List<Payment> findByLastSyncCursorAfterAndBranchIdIn(LocalDateTime sinceCursor, List<Long> branchIds);
     
     List<Payment> findByLastSyncCursorAfterAndCashierIdIn(LocalDateTime sinceCursor, List<Long> cashierIds);
