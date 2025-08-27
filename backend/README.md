@@ -64,12 +64,37 @@ sudo systemctl enable postgresql
 #### Paso 2: Crear la Base de Datos
 
 1. **Conectar a PostgreSQL:**
-```bash
-# En Windows (desde el menú de PostgreSQL o cmd)
-psql -U postgres
 
-# En macOS/Linux
+**En Windows:**
+```cmd
+# Desde el menú de PostgreSQL o cmd
+psql -U postgres
+```
+
+**En macOS (con Homebrew):**
+```bash
+# PostgreSQL instalado con Homebrew usa tu usuario actual
+psql postgres
+# O directamente crear la base de datos
+createdb uxdual_portal
+psql uxdual_portal
+```
+
+**En Linux (Ubuntu/Debian):**
+```bash
+# Si el usuario postgres existe
 sudo -u postgres psql
+
+# Si no existe el usuario postgres, usar tu usuario actual
+psql -d postgres
+```
+
+**Si recibes error "unknown user postgres":**
+```bash
+# Usar tu usuario actual del sistema
+psql -d postgres
+# O directamente
+psql postgres
 ```
 
 2. **Crear la base de datos:**
