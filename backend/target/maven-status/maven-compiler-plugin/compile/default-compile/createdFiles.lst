@@ -36,8 +36,8 @@ META-INF/micronaut/io.micronaut.core.beans.BeanIntrospectionReference/com.uxdual
 com/uxdual/portal/repository/PaymentRepository$Intercepted.class
 com/uxdual/portal/service/SimpleDashboardService.class
 com/uxdual/portal/repository/$BranchRepository$Intercepted$Definition$Exec.class
-com/uxdual/portal/controller/$CustomerController$Definition$Reference.class
 com/uxdual/portal/controller/$DashboardController$Definition.class
+com/uxdual/portal/controller/$CustomerController$Definition$Reference.class
 com/uxdual/portal/repository/$BranchRepository$Intercepted$Definition$Reference.class
 com/uxdual/portal/service/$CashierService$Definition.class
 com/uxdual/portal/service/DashboardService.class
