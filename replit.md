@@ -30,6 +30,21 @@ The project is now organized into two main directories:
 - **backend/** - Java Micronaut application with Maven
 - **frontend/** - Vue 3 Quasar application with Node.js server
 
+## Local Development Setup
+The project includes comprehensive local development setup scripts and documentation:
+- **setup-local.bat** - Automated configuration script for Windows
+- **setup-local.sh** - Automated configuration script for Unix/Linux/macOS  
+- **SETUP-LOCAL.md** - Complete local setup guide
+- **backend/README.md** - Detailed backend configuration instructions
+- **backend/src/main/resources/db/sample_data.sql** - Sample data for local testing
+
+### Local Database Configuration
+- Database: `uxdual_portal`
+- User: `uxdual_user`
+- Password: `uxdual123`
+- Port: `5432` (PostgreSQL default)
+- Demo user: `admin` / `password`
+
 ## Backend Architecture
 - **Framework**: Java 17 with Micronaut Framework for REST API
 - **Database**: PostgreSQL with manual schema management (Flyway disabled)
