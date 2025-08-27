@@ -56,8 +56,14 @@ public class SimpleDashboardService {
             
             // Get amounts by status for today
             BigDecimal approvedAmount = paymentRepository.getTotalByStatusToday("APROBADA");
-            BigDecimal pendingAmount = paymentRepository.getTotalByStatusToday("PEND_LIQ");
             BigDecimal liquidatedAmount = paymentRepository.getTotalByStatusToday("LIQUIDADA");
+            
+            // Pending liquidation includes both APROBADA and PEND_LIQ
+            BigDecimal pendingAmount = paymentRepository.getTotalPendingLiquidationToday();
+            Long pendingLiquidationCount = paymentRepository.getCountPendingLiquidationToday();
+            
+            System.out.println("DEBUG: Pending liquidation amount: " + pendingAmount);
+            System.out.println("DEBUG: Pending liquidation count: " + pendingLiquidationCount);
             
             // Get yesterday data for comparison
             BigDecimal totalAmountYesterday = paymentRepository.getTotalSalesYesterday();
