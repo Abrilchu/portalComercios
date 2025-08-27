@@ -25,6 +25,28 @@ micronaut:
             - "Origin"
             - "X-Requested-With"
           max-age: 3600
+  # Enable caching for performance optimization
+  caches:
+    dashboard-stats:
+      expire-after-write: 2m
+      maximum-size: 1000
+      record-stats: true
+    payments-cache:
+      expire-after-write: 5m
+      maximum-size: 5000
+      record-stats: true
+    customers-cache:
+      expire-after-write: 10m
+      maximum-size: 10000
+      record-stats: true
+    branches-cache:
+      expire-after-write: 1h
+      maximum-size: 1000
+      record-stats: true
+    payment-stats:
+      expire-after-write: 3m
+      maximum-size: 2000
+      record-stats: true
   security:
     authentication: bearer
     token:
@@ -44,6 +66,12 @@ datasources:
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
     dialect: POSTGRES
+    # Optimized pool settings for high-load multi-tenant environment
+    maximum-pool-size: 30
+    minimum-idle: 5
+    connection-timeout: 30000
+    idle-timeout: 300000
+    max-lifetime: 900000
 
 jdbc:
   default:
