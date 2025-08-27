@@ -25,7 +25,32 @@ Preferred communication style: Simple, everyday language.
 
 # System Architecture
 
-## Frontend Architecture
+## Microservices Architecture
+UX Dual Portal implements a complete microservices architecture with two independent services:
+
+### Frontend Microservice (Port 5000)
+- **Service**: `ux-dual-frontend` v1.0.0
+- **Technology**: Node.js native HTTP server
+- **Responsibilities**: 
+  - Serve SPA application
+  - API proxy to backend
+  - CORS handling
+  - Health checks
+  - Configuration injection
+- **Endpoints**: `/health`, `/api/*` (proxy), `/auth/*` (proxy)
+
+### Backend Microservice (Port 8080) 
+- **Service**: `ux-dual-backend-api` v1.0.0
+- **Technology**: Java 17 + Micronaut Framework
+- **Responsibilities**:
+  - REST API for business data
+  - JWT authentication
+  - Database management
+  - Business logic
+  - Health checks and metrics
+- **Endpoints**: `/health`, `/info`, `/metrics`, `/api/*`, `/auth/*`
+
+## Legacy Frontend Components (Embedded in Microservice)
 - **Framework**: Vue 3 with Composition API for reactive component development
 - **UI Framework**: Quasar Framework for Material Design components and responsive layouts
 - **State Management**: Pinia for centralized store management with separate stores for authentication, dashboard, and payments
@@ -38,11 +63,18 @@ Preferred communication style: Simple, everyday language.
 - **Route Protection**: Navigation guards preventing unauthorized access to protected routes
 - **Session Management**: Automatic logout on token expiration with redirect to login
 
+## Service Communication
+- **Inter-Service Communication**: HTTP-based API communication between frontend and backend microservices
+- **Service Discovery**: Direct URL configuration (localhost:8080 ↔ localhost:5000)
+- **Load Balancing**: Ready for horizontal scaling of individual services
+- **Circuit Breaker**: Error handling with graceful degradation when services are unavailable
+
 ## Data Management
 - **HTTP Client**: Axios with interceptors for request/response handling and error management
 - **Real-time Updates**: Polling mechanism for payment synchronization with cursor-based tracking
 - **State Persistence**: LocalStorage for authentication data and user preferences
 - **Error Handling**: Centralized error management with user-friendly notifications
+- **Database Access**: Centralized through backend microservice only
 
 ## Component Architecture
 - **Layout System**: Main layout wrapper with nested route structure for authenticated pages
@@ -54,6 +86,13 @@ Preferred communication style: Simple, everyday language.
 - **Export Functionality**: CSV and JSON export capabilities with customizable column formatting
 - **Data Formatting**: Localized currency (ARS) and number formatting for Argentina market
 - **Status Management**: Color-coded status system for payment states with localized labels
+
+## Microservice Configuration Files
+- `frontend/microservice-config.js` - Frontend service configuration
+- `frontend/microservice-server.js` - Frontend service implementation  
+- `src/main/java/com/uxdual/portal/config/MicroserviceConfig.java` - Backend microservice config
+- `src/main/java/com/uxdual/portal/controller/MicroserviceController.java` - Backend health/metrics endpoints
+- `MICROSERVICES_ARCHITECTURE.md` - Complete architecture documentation
 
 # External Dependencies
 

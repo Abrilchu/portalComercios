@@ -21,7 +21,7 @@ args = "Backend"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Frontend"
+args = "Frontend-Microservice"
 
 [[workflows.workflow]]
 name = "Backend"
@@ -36,12 +36,12 @@ args = "mvn compile exec:java"
 waitForPort = 8080
 
 [[workflows.workflow]]
-name = "Frontend"
+name = "Frontend-Microservice"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd frontend && node simple-server.js"
+args = "cd frontend && npm run microservice"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
