@@ -1,8 +1,5 @@
-/home/runner/workspace/src/main/java/com/uxdual/portal/config/PerformanceConfig.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/model/User.java
-/home/runner/workspace/src/main/java/com/uxdual/portal/controller/MicroserviceController.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/service/CashierService.java
-/home/runner/workspace/src/main/java/com/uxdual/portal/config/MicroserviceConfig.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/service/CustomerService.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/service/ExportService.java
 /home/runner/workspace/src/main/java/com/uxdual/portal/controller/AuthController.java
