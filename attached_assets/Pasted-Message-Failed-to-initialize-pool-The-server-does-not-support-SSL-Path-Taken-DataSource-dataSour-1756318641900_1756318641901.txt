@@ -1,0 +1,55 @@
+Message: Failed to initialize pool: The server does not support SSL.
+Path Taken: DataSource.dataSource(DatasourceConfiguration datasourceConfiguration)
+io.micronaut.context.exceptions.BeanInstantiationException: Bean definition [javax.sql.DataSource] could not be loaded: Error instantiating bean of type  [javax.sql.DataSource]
+
+Message: Failed to initialize pool: The server does not support SSL.
+Path Taken: DataSource.dataSource(DatasourceConfiguration datasourceConfiguration)
+        at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:1921)
+        at io.micronaut.context.DefaultApplicationContext.initializeContext(DefaultApplicationContext.java:249)
+        at io.micronaut.context.DefaultBeanContext.readAllBeanDefinitionClasses(DefaultBeanContext.java:3326)
+        at io.micronaut.context.DefaultBeanContext.finalizeConfiguration(DefaultBeanContext.java:3684)
+        at io.micronaut.context.DefaultBeanContext.start(DefaultBeanContext.java:341)
+        at io.micronaut.context.DefaultApplicationContext.start(DefaultApplicationContext.java:194)
+        at io.micronaut.runtime.Micronaut.start(Micronaut.java:75)
+        at io.micronaut.runtime.Micronaut.run(Micronaut.java:323)
+        at io.micronaut.runtime.Micronaut.run(Micronaut.java:309)
+        at com.uxdual.portal.Application.main(Application.java:16)
+        at org.codehaus.mojo.exec.ExecJavaMojo$1.run(ExecJavaMojo.java:279)
+        at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: io.micronaut.context.exceptions.BeanInstantiationException: Error instantiating bean of type  [javax.sql.DataSource]
+
+Message: Failed to initialize pool: The server does not support SSL.
+Path Taken: DataSource.dataSource(DatasourceConfiguration datasourceConfiguration)
+        at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2367)
+        at io.micronaut.context.DefaultBeanContext.doCreateBean(DefaultBeanContext.java:2305)
+        at io.micronaut.context.DefaultBeanContext.doCreateBean(DefaultBeanContext.java:2251)
+        at io.micronaut.context.DefaultBeanContext.createRegistration(DefaultBeanContext.java:3016)
+        at io.micronaut.context.SingletonScope.getOrCreate(SingletonScope.java:80)
+        at io.micronaut.context.DefaultBeanContext.findOrCreateSingletonBeanRegistration(DefaultBeanContext.java:2918)
+        at io.micronaut.context.DefaultBeanContext.loadContextScopeBean(DefaultBeanContext.java:2737)
+        at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:1915)
+        ... 11 common frames omitted
+Caused by: com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: The server does not support SSL.
+        at com.zaxxer.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:596)
+        at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:582)
+        at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+        at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:81)
+        at io.micronaut.configuration.jdbc.hikari.HikariUrlDataSource.<init>(HikariUrlDataSource.java:35)
+        at io.micronaut.configuration.jdbc.hikari.DatasourceFactory.dataSource(DatasourceFactory.java:66)
+        at io.micronaut.configuration.jdbc.hikari.$DatasourceFactory$DataSource0$Definition.build(Unknown Source)
+        at io.micronaut.context.BeanDefinitionDelegate.build(BeanDefinitionDelegate.java:161)
+        at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2354)
+        ... 18 common frames omitted
+Caused by: org.postgresql.util.PSQLException: The server does not support SSL.
+        at org.postgresql.core.v3.ConnectionFactoryImpl.enableSSL(ConnectionFactoryImpl.java:648)
+        at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:207)
+        at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:289)
+        at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57)
+        at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:277)
+        at org.postgresql.Driver.makeConnection(Driver.java:448)
+        at org.postgresql.Driver.connect(Driver.java:298)
+        at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+        at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+        at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+        at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+        at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
