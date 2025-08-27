@@ -23,12 +23,14 @@ com/uxdual/portal/service/$ExportService$Definition.class
 com/uxdual/portal/dto/$PaymentDto$IntrospectionRef.class
 com/uxdual/portal/service/$CustomerService$Definition$Reference.class
 com/uxdual/portal/repository/$CashierRepository$Intercepted$Definition$Exec.class
+com/uxdual/portal/config/PerformanceConfig.class
 com/uxdual/portal/service/$DashboardService$Definition$Reference.class
 com/uxdual/portal/repository/CustomerRepository$Intercepted.class
 com/uxdual/portal/config/$SecurityConfig$Definition.class
 com/uxdual/portal/repository/BranchRepository$Intercepted.class
 com/uxdual/portal/service/$SimpleDashboardService$Definition$Reference.class
 META-INF/micronaut/io.micronaut.core.beans.BeanIntrospectionReference/com.uxdual.portal.model.$User$IntrospectionRef
+com/uxdual/portal/config/$PerformanceConfig$AsyncExecutor0$Definition$Reference.class
 com/uxdual/portal/dto/$LoginRequest$IntrospectionRef.class
 com/uxdual/portal/dto/PaymentDto.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.repository.$UserRepository$Intercepted$Definition$Reference
@@ -76,11 +78,14 @@ com/uxdual/portal/service/CashierService.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.config.$SecurityConfig$Definition$Reference
 com/uxdual/portal/repository/$PaymentRepository$Intercepted$Definition.class
 com/uxdual/portal/dto/$DashboardStats$IntrospectionRef.class
+com/uxdual/portal/config/$PerformanceConfig$Introspection.class
 com/uxdual/portal/service/BranchService.class
 com/uxdual/portal/controller/DashboardController.class
+META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.config.$PerformanceConfig$AsyncExecutor0$Definition$Reference
 com/uxdual/portal/dto/$PaymentFilter$Introspection.class
 com/uxdual/portal/model/$Cashier$Introspection.class
 META-INF/micronaut/io.micronaut.core.beans.BeanIntrospectionReference/com.uxdual.portal.model.$Branch$IntrospectionRef
+com/uxdual/portal/config/$PerformanceConfig$AsyncExecutor0$Definition.class
 com/uxdual/portal/dto/CustomerDto.class
 com/uxdual/portal/dto/$CustomerDto$IntrospectionRef.class
 com/uxdual/portal/model/Payment.class
@@ -101,6 +106,7 @@ META-INF/micronaut/io.micronaut.core.beans.BeanIntrospectionReference/com.uxdual
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.service.$SimpleDashboardService$Definition$Reference
 com/uxdual/portal/service/$PaymentService$Definition.class
 com/uxdual/portal/repository/$CustomerRepository$Intercepted$Definition$Reference.class
+com/uxdual/portal/config/$PerformanceConfig$Definition$Reference.class
 com/uxdual/portal/model/UserRole.class
 com/uxdual/portal/controller/PaymentController.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.repository.$PaymentRepository$Intercepted$Definition$Reference
@@ -108,10 +114,12 @@ com/uxdual/portal/service/PaymentService.class
 com/uxdual/portal/model/Customer.class
 com/uxdual/portal/repository/UserRepository$Intercepted.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.service.$DashboardService$Definition$Reference
+com/uxdual/portal/config/$PerformanceConfig$IntrospectionRef.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.controller.$CustomerController$Definition$Reference
 com/uxdual/portal/config/$MicroserviceConfig$Definition.class
 com/uxdual/portal/config/$SecurityConfig$SecretSignatureConfiguration0$Definition.class
 com/uxdual/portal/model/User.class
+META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.config.$PerformanceConfig$Definition$Reference
 com/uxdual/portal/controller/$MicroserviceController$Definition$Reference.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.controller.$PaymentController$Definition$Reference
 com/uxdual/portal/config/$SecurityConfig$SecretSignatureConfiguration0$Definition$Reference.class
@@ -123,6 +131,7 @@ META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal
 com/uxdual/portal/model/$Branch$IntrospectionRef.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.service.$ExportService$Definition$Reference
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.config.$SecurityConfig$SecretSignatureConfiguration0$Definition$Reference
+META-INF/micronaut/io.micronaut.core.beans.BeanIntrospectionReference/com.uxdual.portal.config.$PerformanceConfig$IntrospectionRef
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.service.$BranchService$Definition$Reference
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.controller.$MicroserviceController$Definition$Reference
 META-INF/micronaut/io.micronaut.core.beans.BeanIntrospectionReference/com.uxdual.portal.dto.$LoginResponse$IntrospectionRef
@@ -135,6 +144,7 @@ com/uxdual/portal/dto/BranchDto.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.service.$CashierService$Definition$Reference
 com/uxdual/portal/model/Branch.class
 com/uxdual/portal/controller/$DevController$Definition.class
+com/uxdual/portal/config/$PerformanceConfig$Definition.class
 com/uxdual/portal/repository/$UserRepository$Intercepted$Definition.class
 META-INF/micronaut/io.micronaut.inject.BeanDefinitionReference/com.uxdual.portal.repository.$BranchRepository$Intercepted$Definition$Reference
 com/uxdual/portal/controller/AuthController.class
