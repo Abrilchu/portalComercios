@@ -36,7 +36,9 @@ The project includes comprehensive local development setup scripts and documenta
 - **setup-local.sh** - Automated configuration script for Unix/Linux/macOS  
 - **SETUP-LOCAL.md** - Complete local setup guide
 - **backend/README.md** - Detailed backend configuration instructions
+- **backend/src/main/resources/db/migration/V2__create_erd_schema.sql** - Database schema based on ERD
 - **backend/src/main/resources/db/sample_data.sql** - Sample data for local testing
+- **backend/src/main/resources/application-local.yml** - Local configuration with SSL disabled
 
 ### Local Database Configuration
 - Database: `uxdual_portal`
@@ -51,6 +53,7 @@ The project includes comprehensive local development setup scripts and documenta
 - **Build System**: Maven for dependency management and compilation
 - **Authentication**: JWT-based authentication with role-based access control
 - **Database Structure**: Multi-tenant with empresa (company) entity as tenant root
+- **Schema Management**: ERD-based schema (V2__create_erd_schema.sql) replacing legacy V1 schema
 
 ## Frontend Architecture
 - **Framework**: Vue 3 with Composition API for reactive component development

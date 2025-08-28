@@ -142,7 +142,7 @@ export PGPASSWORD=uxdual123
 psql -h localhost -U uxdual_user -d uxdual_portal
 
 # En psql, ejecutar:
-\i backend/src/main/resources/db/migration/V1__initial_schema.sql
+\i backend/src/main/resources/db/migration/V2__create_erd_schema.sql
 ```
 
 2. **Insertar datos de ejemplo (opcional pero recomendado):**

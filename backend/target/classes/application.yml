@@ -18,7 +18,7 @@ micronaut:
 
 datasources:
   default:
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:uxdual_portal}?sslmode=disable
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:uxdual_portal}?sslmode=${SSLMODE:require}
     driverClassName: org.postgresql.Driver
     username: ${PGUSER:postgres}
     password: ${PGPASSWORD:password}
