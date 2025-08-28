@@ -51,7 +51,7 @@ else
 fi
 
 echo "[3/5] Creando esquema de base de datos..."
-if psql -h $PGHOST -U $PGUSER -d $PGDATABASE -f backend/src/main/resources/db/migration/V1__initial_schema.sql; then
+if psql -h $PGHOST -U $PGUSER -d $PGDATABASE -f backend/src/main/resources/db/migration/V2__create_erd_schema.sql; then
     echo "✓ Esquema de base de datos creado"
 else
     echo "ERROR: No se pudo crear el esquema de base de datos"

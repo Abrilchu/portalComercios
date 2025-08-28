@@ -1,5 +1,5 @@
 -- Script de datos de ejemplo para UX Dual Portal
--- Ejecutar después de crear el esquema con V3__create_erd_schema.sql
+-- Ejecutar después de crear el esquema con V2__create_erd_schema.sql
 
 -- Insertar empresa de ejemplo
 INSERT INTO empresa (id, nombre, direccion, telefono, email, website, logo_url, created_at, updated_at) 
