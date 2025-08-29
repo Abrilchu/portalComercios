@@ -29,14 +29,11 @@ public class Payment {
     private LocalDateTime updatedAt;
     private LocalDateTime lastSyncCursor;
     
-    @Relation(value = Relation.Kind.MANY_TO_ONE)
-    private Customer customer;
-    
-    @Relation(value = Relation.Kind.MANY_TO_ONE)
-    private Branch branch;
-    
-    @Relation(value = Relation.Kind.MANY_TO_ONE)
-    private Cashier cashier;
+    // Simplified model - no complex relations for UXDUAL schema compatibility
+    // Using direct fields instead of relations to avoid JOIN queries
+    private String customerName;
+    private String branchName;
+    private String cashierName;
     
     // Constructors
     public Payment() {}
@@ -99,12 +96,12 @@ public class Payment {
     public LocalDateTime getLastSyncCursor() { return lastSyncCursor; }
     public void setLastSyncCursor(LocalDateTime lastSyncCursor) { this.lastSyncCursor = lastSyncCursor; }
     
-    public Customer getCustomer() { return customer; }
-    public void setCustomer(Customer customer) { this.customer = customer; }
+    public String getCustomerName() { return customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
     
-    public Branch getBranch() { return branch; }
-    public void setBranch(Branch branch) { this.branch = branch; }
+    public String getBranchName() { return branchName; }
+    public void setBranchName(String branchName) { this.branchName = branchName; }
     
-    public Cashier getCashier() { return cashier; }
-    public void setCashier(Cashier cashier) { this.cashier = cashier; }
+    public String getCashierName() { return cashierName; }
+    public void setCashierName(String cashierName) { this.cashierName = cashierName; }
 }
