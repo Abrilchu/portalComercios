@@ -41,18 +41,18 @@ public interface PaymentRepository extends CrudRepository<Payment, Long> {
     @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE - INTERVAL '1 day'")
     Long getPaymentCountYesterday();
     
-    // Fixed status queries using proper casting
-    @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE AND status = CAST(:status AS payment_status)")
+    // Fixed status queries using text comparison (no ENUM casting needed)
+    @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE AND status = :status")
     BigDecimal getTotalByStatusToday(String status);
     
-    @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND status = CAST(:status AS payment_status)")
+    @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND status = :status")
     Long getCountByStatusToday(String status);
     
     // Query for pending liquidation (APROBADA + PEND_LIQ)
-    @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE AND (status = CAST('APROBADA' AS payment_status) OR status = CAST('PEND_LIQ' AS payment_status))")
+    @Query("SELECT COALESCE(SUM(amount), 0) FROM payments WHERE created_at::date = CURRENT_DATE AND (status = 'APROBADA' OR status = 'PEND_LIQ')")
     BigDecimal getTotalPendingLiquidationToday();
     
-    @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND (status = CAST('APROBADA' AS payment_status) OR status = CAST('PEND_LIQ' AS payment_status))")
+    @Query("SELECT COUNT(*) FROM payments WHERE created_at::date = CURRENT_DATE AND (status = 'APROBADA' OR status = 'PEND_LIQ')")
     Long getCountPendingLiquidationToday();
     
     List<Payment> findByLastSyncCursorAfterAndBranchIdIn(LocalDateTime sinceCursor, List<Long> branchIds);
