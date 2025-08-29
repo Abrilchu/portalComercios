@@ -104,21 +104,10 @@ public class PaymentService {
         dto.setCreatedAt(payment.getCreatedAt());
         dto.setUpdatedAt(payment.getUpdatedAt());
         
-        // Load related entities manually since JPA relations are not working
-        if (payment.getCustomerId() != null) {
-            customerRepository.findById(payment.getCustomerId())
-                .ifPresent(customer -> dto.setCustomerName(customer.getName()));
-        }
-        
-        if (payment.getBranchId() != null) {
-            branchRepository.findById(payment.getBranchId())
-                .ifPresent(branch -> dto.setBranchName(branch.getName()));
-        }
-        
-        if (payment.getCashierId() != null) {
-            cashierRepository.findById(payment.getCashierId())
-                .ifPresent(cashier -> dto.setCashierName(cashier.getName()));
-        }
+        // Use names directly from UXDUAL schema instead of complex JPA relations
+        dto.setCustomerName(payment.getCustomerName());
+        dto.setBranchName(payment.getBranchName());
+        dto.setCashierName(payment.getCashierName());
         
         return dto;
     }

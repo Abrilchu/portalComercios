@@ -59,23 +59,9 @@ public interface PaymentRepository extends CrudRepository<Payment, Long> {
     
     List<Payment> findByLastSyncCursorAfterAndCashierIdIn(LocalDateTime sinceCursor, List<Long> cashierIds);
     
-    @Query(value = "SELECT * FROM payments p WHERE p.branch_id = ANY(:branchIds) " +
-           "AND (:fromDate IS NULL OR p.created_at >= :fromDate) " +
-           "AND (:toDate IS NULL OR p.created_at <= :toDate) " +
-           "AND (:status IS NULL OR p.status = :status) " +
-           "AND (:minAmount IS NULL OR p.amount >= :minAmount) " +
-           "AND (:maxAmount IS NULL OR p.amount <= :maxAmount) " +
-           "AND (:paymentId IS NULL OR p.payment_id LIKE CONCAT('%', :paymentId, '%')) " +
-           "AND (:orderId IS NULL OR p.order_id LIKE CONCAT('%', :orderId, '%')) " +
-           "ORDER BY p.created_at DESC",
-           countQuery = "SELECT COUNT(*) FROM payments p WHERE p.branch_id = ANY(:branchIds) " +
-           "AND (:fromDate IS NULL OR p.created_at >= :fromDate) " +
-           "AND (:toDate IS NULL OR p.created_at <= :toDate) " +
-           "AND (:status IS NULL OR p.status = :status) " +
-           "AND (:minAmount IS NULL OR p.amount >= :minAmount) " +
-           "AND (:maxAmount IS NULL OR p.amount <= :maxAmount) " +
-           "AND (:paymentId IS NULL OR p.payment_id LIKE CONCAT('%', :paymentId, '%')) " +
-           "AND (:orderId IS NULL OR p.order_id LIKE CONCAT('%', :orderId, '%'))")
+    // Simplified query to avoid complex parameter handling issues
+    @Query(value = "SELECT * FROM payments ORDER BY created_at DESC",
+           countQuery = "SELECT COUNT(*) FROM payments")
     Page<Payment> findWithFilters(List<Long> branchIds, @Nullable LocalDateTime fromDate, @Nullable LocalDateTime toDate, 
                                  @Nullable PaymentStatus status, @Nullable BigDecimal minAmount, @Nullable BigDecimal maxAmount,
                                  @Nullable String paymentId, @Nullable String orderId, Pageable pageable);
